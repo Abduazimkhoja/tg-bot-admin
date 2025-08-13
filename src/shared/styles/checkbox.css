@@ -1,0 +1,126 @@
+@utility checkbox {
+  @apply rounded-[25%] cursor-pointer shrink-0 border shadow-xs transition-[color,box-shadow] focus-visible:ring-4 focus-visible:outline-1 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:focus-visible:ring-0;
+
+  --checkbox-bg: var(--color-info, var(--color-info-content));
+  --checkbox-fg: var(--color-base-100);
+  --size: calc(var(--size-selector, 0.25rem) * 6);
+  width: var(--size);
+  height: var(--size);
+
+  border-color: var(--checkbox-bg);
+  color: var(--checkbox-fg);
+
+  &[data-state="checked"] {
+    background-color: var(--checkbox-bg);
+    color: var(--checkbox-fg);
+    border-color: var(--checkbox-bg);
+  }
+
+  &.checkbox-outline {
+    --checkbox-fg: var(--checkbox-color);
+    --checkbox-bg: #0000;
+    background-image: none;
+    border-color: currentColor;
+  }
+
+  &.checkbox-dash {
+    --checkbox-fg: var(--checkbox-color);
+    --checkbox-bg: #0000;
+    background-image: none;
+    border-color: currentColor;
+    border-style: dashed;
+  }
+
+  &.checkbox-soft {
+    color: var(--checkbox-color, var(--color-base-content));
+    background-color: color-mix(
+      in oklab,
+      var(--checkbox-color, var(--color-base-content)) 8%,
+      var(--color-base-100)
+    );
+    border-color: color-mix(
+      in oklab,
+      var(--checkbox-color, var(--color-base-content)) 10%,
+      var(--color-base-100)
+    );
+    background-image: none;
+  }
+}
+
+@utility checkbox-primary {
+  --checkbox-color: var(--color-primary);
+  --checkbox-bg: var(--color-primary);
+  --checkbox-fg: var(--color-primary-content);
+}
+
+@utility checkbox-secondary {
+  --checkbox-color: var(--color-secondary);
+  --checkbox-bg: var(--color-secondary);
+  --checkbox-fg: var(--color-secondary-content);
+}
+
+@utility checkbox-accent {
+  --checkbox-color: var(--color-accent);
+  --checkbox-bg: var(--color-accent);
+  --checkbox-fg: var(--color-accent-content);
+}
+
+@utility checkbox-neutral {
+  --checkbox-color: var(--color-neutral);
+  --checkbox-bg: var(--color-neutral);
+  --checkbox-fg: var(--color-neutral-content);
+}
+
+@utility checkbox-info {
+  --checkbox-color: var(--color-info);
+  --checkbox-bg: var(--color-info);
+  --checkbox-fg: var(--color-info-content);
+}
+
+@utility checkbox-success {
+  --checkbox-color: var(--color-success);
+  --checkbox-bg: var(--color-success);
+  --checkbox-fg: var(--color-success-content);
+}
+
+@utility checkbox-warning {
+  --checkbox-color: var(--color-warning);
+  --checkbox-bg: var(--color-warning);
+  --checkbox-fg: var(--color-warning-content);
+}
+
+@utility checkbox-error {
+  --checkbox-color: var(--color-error);
+  --checkbox-bg: var(--color-error);
+  --checkbox-fg: var(--color-error-content);
+}
+
+@utility checkbox-ghost {
+  @apply border-base-200 bg-base-200 text-base-content;
+  background-image: none;
+}
+
+@utility checkbox-xs {
+  width: calc(var(--size-selector, 0.25rem) * 4);
+  height: calc(var(--size-selector, 0.25rem) * 4);
+}
+
+@utility checkbox-sm {
+  width: calc(var(--size-selector, 0.25rem) * 5);
+  height: calc(var(--size-selector, 0.25rem) * 5);
+}
+
+@utility checkbox-md {
+  width: calc(var(--size-selector, 0.25rem) * 6);
+  height: calc(var(--size-selector, 0.25rem) * 6);
+}
+
+@utility checkbox-lg {
+  width: calc(var(--size-selector, 0.25rem) * 7);
+  height: calc(var(--size-selector, 0.25rem) * 7);
+}
+
+@utility checkbox-xl {
+  width: calc(var(--size-selector, 0.25rem) * 8);
+  height: calc(var(--size-selector, 0.25rem) * 8);
+}

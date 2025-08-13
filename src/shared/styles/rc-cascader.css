@@ -1,0 +1,598 @@
+.rc-cascader-dropdown {
+  min-height: auto;
+}
+
+.rc-cascader-menus {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.rc-cascader-menu {
+  flex: none;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-left: 1px solid blue;
+  height: 700px;
+  min-width: 100px;
+  overflow: auto;
+}
+
+.rc-cascader-menu:first-child {
+  border-left: 0;
+}
+
+.rc-cascader-menu-item {
+  display: flex;
+  flex-wrap: nowrap;
+  padding-right: 20px;
+  position: relative;
+}
+
+.rc-cascader-menu-item:hover {
+  background: rgba(0, 0, 255, 0.1);
+}
+
+.rc-cascader-menu-item-selected {
+  background: rgba(0, 0, 255, 0.05);
+}
+
+.rc-cascader-menu-item-active {
+  background: rgba(0, 255, 0, 0.1);
+}
+
+.rc-cascader-menu-item-disabled {
+  opacity: 0.5;
+}
+
+.rc-cascader-menu-item-content {
+  flex: auto;
+}
+
+.rc-cascader-menu-item-expand-icon {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* .rc-cascader-checkbox {
+  position: relative;
+  display: block;
+  flex: none;
+  width: 20px;
+  height: 20px;
+  border: 1px solid blue;
+}
+
+.rc-cascader-checkbox::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  content: "";
+}
+
+.rc-cascader-checkbox-checked::after {
+  content: "✔️";
+}
+
+.rc-cascader-checkbox-indeterminate::after {
+  content: "➖";
+} */
+
+.rc-cascader-checkbox {
+  @apply rounded-[25%] cursor-pointer shrink-0 border shadow-xs transition-[color,box-shadow] focus-visible:ring-4 focus-visible:outline-1 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:focus-visible:ring-0;
+
+  --checkbox-bg: var(--color-info, var(--color-info-content));
+  --checkbox-fg: var(--color-base-100);
+  --size: calc(var(--size-selector, 0.25rem) * 6);
+  width: var(--size);
+  height: var(--size);
+
+  border-color: var(--checkbox-bg);
+  color: var(--checkbox-fg);
+  position: relative;
+  display: block;
+  flex: none;
+
+  /* Убираем стили rc-cascader, которые конфликтуют с DaisyUI */
+  &::after {
+    content: none; /* Отключаем символ галочки rc-cascader */
+  }
+
+  /* Добавляем стили для фона, чтобы иконка могла отображаться */
+  background-size: 100% 100%; /* Убедитесь, что фон занимает всю площадь */
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.rc-cascader-checkbox-checked {
+  background-color: var(--checkbox-bg);
+  color: var(--checkbox-fg);
+  border-color: var(--checkbox-bg);
+  /* DaisyUI SVG для галочки */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' class='lucide lucide-check-icon lucide-check'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
+}
+
+.rc-cascader-checkbox-indeterminate {
+  background-color: var(--checkbox-bg);
+  border-color: var(--checkbox-bg);
+  /* DaisyUI SVG для дефиса */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' class='lucide lucide-minus-icon lucide-minus'%3E%3Cpath d='M5 12h14'/%3E%3C/svg%3E");
+}
+
+/* RTL */
+.rc-cascader-rtl {
+  direction: rtl;
+}
+
+.rc-cascader-rtl .rc-cascader-menu {
+  flex: none;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-left: none;
+  border-right: 1px solid blue;
+}
+
+.rc-cascader-rtl .rc-cascader-menu:first-child {
+  border-right: 0;
+}
+
+.rc-cascader-panel {
+  border: 1px solid green;
+}
+
+
+
+/* copied Style */
+
+
+
+.rc-cascader {
+    display: inline-block;
+    font-size: 12px;
+    width: 100px;
+    position: relative
+}
+
+.rc-cascader-disabled,.rc-cascader-disabled input {
+    cursor: not-allowed
+}
+
+.rc-cascader-disabled .rc-cascader-selector {
+    opacity: .3
+}
+
+.rc-cascader-show-arrow.rc-cascader-loading .rc-cascader-arrow-icon:after {
+    box-sizing: border-box;
+    width: 12px;
+    height: 12px;
+    border-radius: 100%;
+    border: 2px solid #999;
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+    transform: none;
+    margin-top: 4px;
+    animation: rcSelectLoadingIcon .5s infinite
+}
+
+.rc-cascader .rc-cascader-selection-placeholder {
+    opacity: .4;
+    pointer-events: none
+}
+
+.rc-cascader .rc-cascader-selection-search-input {
+    -webkit-appearance: none;
+    appearance: none
+}
+
+.rc-cascader .rc-cascader-selection-search-input::-webkit-search-cancel-button {
+    display: none;
+    -webkit-appearance: none;
+    appearance: none
+}
+
+.rc-cascader-single .rc-cascader-selector {
+    display: flex;
+    position: relative
+}
+
+.rc-cascader-single .rc-cascader-selector .rc-cascader-selection-wrap,.rc-cascader-single .rc-cascader-selector .rc-cascader-selection-search {
+    width: 100%;
+    position: relative
+}
+
+.rc-cascader-single .rc-cascader-selector .rc-cascader-selection-search-input {
+    width: 100%
+}
+
+.rc-cascader-single .rc-cascader-selector .rc-cascader-selection-item,.rc-cascader-single .rc-cascader-selector .rc-cascader-selection-placeholder {
+    position: absolute;
+    top: 1px;
+    left: 3px;
+    pointer-events: none;
+    font-weight: 400
+}
+
+.rc-cascader-single:not(.rc-cascader-customize-input) .rc-cascader-selector {
+    padding: 1px;
+    border: 1px solid #000
+}
+
+.rc-cascader-single:not(.rc-cascader-customize-input) .rc-cascader-selector .rc-cascader-selection-search-input {
+    border: none;
+    outline: none;
+    background: #f003;
+    width: 100%
+}
+
+.rc-cascader-multiple .rc-cascader-selector {
+    display: flex;
+    padding: 1px;
+    border: 1px solid #000
+}
+
+.rc-cascader-multiple .rc-cascader-selector .rc-cascader-selection-item {
+    flex: none;
+    background: #bbb;
+    border-radius: 4px;
+    margin-right: 2px;
+    padding: 0 8px
+}
+
+.rc-cascader-multiple .rc-cascader-selector .rc-cascader-selection-item-disabled {
+    cursor: not-allowed;
+    opacity: .5
+}
+
+.rc-cascader-multiple .rc-cascader-selector .rc-cascader-selection-overflow {
+    display: flex;
+    flex-wrap: wrap
+}
+
+.rc-cascader-multiple .rc-cascader-selector .rc-cascader-selection-overflow-item {
+    flex: none;
+    max-width: 100%
+}
+
+.rc-cascader-multiple .rc-cascader-selector .rc-cascader-selection-search {
+    position: relative;
+    max-width: 100%
+}
+
+.rc-cascader-multiple .rc-cascader-selector .rc-cascader-selection-search-input,.rc-cascader-multiple .rc-cascader-selector .rc-cascader-selection-search-mirror {
+    padding: 1px;
+    font-family: system-ui
+}
+
+.rc-cascader-multiple .rc-cascader-selector .rc-cascader-selection-search-mirror {
+    position: absolute;
+    z-index: 999;
+    white-space: nowrap;
+    position: none;
+    left: 0;
+    top: 0;
+    visibility: hidden
+}
+
+.rc-cascader-multiple .rc-cascader-selector .rc-cascader-selection-search-input {
+    border: none;
+    outline: none;
+    background: #f003;
+    width: 100%
+}
+
+.rc-cascader-allow-clear.rc-cascader-multiple .rc-cascader-selector {
+    padding-right: 20px
+}
+
+.rc-cascader-allow-clear .rc-cascader-clear {
+    position: absolute;
+    right: 20px;
+    top: 0
+}
+
+.rc-cascader-show-arrow.rc-cascader-multiple .rc-cascader-selector {
+    padding-right: 20px
+}
+
+.rc-cascader-show-arrow .rc-cascader-arrow {
+    pointer-events: none;
+    position: absolute;
+    right: 5px;
+    top: 0
+}
+
+.rc-cascader-show-arrow .rc-cascader-arrow-icon:after {
+    content: "";
+    border: 5px solid transparent;
+    width: 0;
+    height: 0;
+    display: inline-block;
+    border-top-color: #999;
+    transform: translateY(5px)
+}
+
+.rc-cascader-focused .rc-cascader-selector {
+    border-color: #00f!important
+}
+
+.rc-cascader-dropdown {
+    border: 1px solid green;
+    min-height: 100px;
+    position: absolute;
+    background: #fff
+}
+
+.rc-cascader-dropdown-hidden {
+    display: none
+}
+
+.rc-cascader-item {
+    font-size: 16px;
+    line-height: 1.5;
+    padding: 4px 16px
+}
+
+.rc-cascader-item-group {
+    color: #999;
+    font-weight: 700;
+    font-size: 80%
+}
+
+.rc-cascader-item-option {
+    position: relative
+}
+
+.rc-cascader-item-option-grouped {
+    padding-left: 24px
+}
+
+.rc-cascader-item-option .rc-cascader-item-option-state {
+    position: absolute;
+    right: 0;
+    top: 4px;
+    pointer-events: none
+}
+
+.rc-cascader-item-option-active {
+    background: #ddd
+}
+
+.rc-cascader-item-option-disabled {
+    color: #999
+}
+
+.rc-cascader-item-empty {
+    text-align: center;
+    color: #999
+}
+
+.rc-cascader-selection__choice-zoom {
+    transition: all .3s
+}
+
+.rc-cascader-selection__choice-zoom-appear {
+    opacity: 0;
+    transform: scale(.5)
+}
+
+.rc-cascader-selection__choice-zoom-appear.rc-cascader-selection__choice-zoom-appear-active,.rc-cascader-selection__choice-zoom-leave {
+    opacity: 1;
+    transform: scale(1)
+}
+
+.rc-cascader-selection__choice-zoom-leave.rc-cascader-selection__choice-zoom-leave-active {
+    opacity: 0;
+    transform: scale(.5)
+}
+
+.rc-cascader-dropdown-slide-up-enter,.rc-cascader-dropdown-slide-up-appear {
+    animation-duration: .3s;
+    animation-fill-mode: both;
+    transform-origin: 0 0;
+    opacity: 0;
+    animation-timing-function: cubic-bezier(.08,.82,.17,1);
+    animation-play-state: paused
+}
+
+.rc-cascader-dropdown-slide-up-leave {
+    animation-duration: .3s;
+    animation-fill-mode: both;
+    transform-origin: 0 0;
+    opacity: 1;
+    animation-timing-function: cubic-bezier(.6,.04,.98,.34);
+    animation-play-state: paused
+}
+
+.rc-cascader-dropdown-slide-up-enter.rc-cascader-dropdown-slide-up-enter-active.rc-cascader-dropdown-placement-bottomLeft,.rc-cascader-dropdown-slide-up-appear.rc-cascader-dropdown-slide-up-appear-active.rc-cascader-dropdown-placement-bottomLeft,.rc-cascader-dropdown-slide-up-enter.rc-cascader-dropdown-slide-up-enter-active.rc-cascader-dropdown-placement-bottomRight,.rc-cascader-dropdown-slide-up-appear.rc-cascader-dropdown-slide-up-appear-active.rc-cascader-dropdown-placement-bottomRight {
+    animation-name: rcSelectDropdownSlideUpIn;
+    animation-play-state: running
+}
+
+.rc-cascader-dropdown-slide-up-leave.rc-cascader-dropdown-slide-up-leave-active.rc-cascader-dropdown-placement-bottomLeft,.rc-cascader-dropdown-slide-up-leave.rc-cascader-dropdown-slide-up-leave-active.rc-cascader-dropdown-placement-bottomRight {
+    animation-name: rcSelectDropdownSlideUpOut;
+    animation-play-state: running
+}
+
+.rc-cascader-dropdown-slide-up-enter.rc-cascader-dropdown-slide-up-enter-active.rc-cascader-dropdown-placement-topLeft,.rc-cascader-dropdown-slide-up-appear.rc-cascader-dropdown-slide-up-appear-active.rc-cascader-dropdown-placement-topLeft,.rc-cascader-dropdown-slide-up-enter.rc-cascader-dropdown-slide-up-enter-active.rc-cascader-dropdown-placement-topRight,.rc-cascader-dropdown-slide-up-appear.rc-cascader-dropdown-slide-up-appear-active.rc-cascader-dropdown-placement-topRight {
+    animation-name: rcSelectDropdownSlideDownIn;
+    animation-play-state: running
+}
+
+.rc-cascader-dropdown-slide-up-leave.rc-cascader-dropdown-slide-up-leave-active.rc-cascader-dropdown-placement-topLeft,.rc-cascader-dropdown-slide-up-leave.rc-cascader-dropdown-slide-up-leave-active.rc-cascader-dropdown-placement-topRight {
+    animation-name: rcSelectDropdownSlideDownOut;
+    animation-play-state: running
+}
+
+@keyframes rcSelectDropdownSlideUpIn {
+    0% {
+        opacity: 0;
+        transform-origin: 0% 0%;
+        transform: scaleY(0)
+    }
+
+    to {
+        opacity: 1;
+        transform-origin: 0% 0%;
+        transform: scaleY(1)
+    }
+}
+
+@keyframes rcSelectDropdownSlideUpOut {
+    0% {
+        opacity: 1;
+        transform-origin: 0% 0%;
+        transform: scaleY(1)
+    }
+
+    to {
+        opacity: 0;
+        transform-origin: 0% 0%;
+        transform: scaleY(0)
+    }
+}
+
+@keyframes rcSelectDropdownSlideDownIn {
+    0% {
+        transform: scaleY(0);
+        transform-origin: 100% 100%;
+        opacity: 0
+    }
+
+    to {
+        transform: scaleY(1);
+        transform-origin: 100% 100%;
+        opacity: 1
+    }
+}
+
+@keyframes rcSelectDropdownSlideDownOut {
+    0% {
+        transform: scaleY(1);
+        transform-origin: 100% 100%;
+        opacity: 1
+    }
+
+    to {
+        transform: scaleY(0);
+        transform-origin: 100% 100%;
+        opacity: 0
+    }
+}
+
+@keyframes rcSelectLoadingIcon {
+    0% {
+        transform: rotate(0)
+    }
+
+    to {
+        transform: rotate(360deg)
+    }
+}
+
+.rc-cascader-dropdown {
+    min-height: auto
+}
+
+.rc-cascader-menus {
+    display: flex;
+    flex-wrap: nowrap
+}
+
+.rc-cascader-menu {
+    flex: none;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-left: 1px solid blue;
+    height: 180px;
+    min-width: 100px;
+    overflow: auto
+}
+
+.rc-cascader-menu:first-child {
+    border-left: 0
+}
+
+.rc-cascader-menu-item {
+    display: flex;
+    flex-wrap: nowrap;
+    padding-right: 20px;
+    position: relative
+}
+
+.rc-cascader-menu-item:hover {
+    background: #0000ff1a
+}
+
+.rc-cascader-menu-item-selected {
+    background: #0000ff0d
+}
+
+.rc-cascader-menu-item-active {
+    background: #00ff001a
+}
+
+.rc-cascader-menu-item-disabled {
+    opacity: .5
+}
+
+.rc-cascader-menu-item-content {
+    flex: auto
+}
+
+.rc-cascader-menu-item-expand-icon {
+    position: absolute;
+    right: 4px;
+    top: 50%;
+    transform: translateY(-50%)
+}
+
+.rc-cascader-checkbox {
+    position: relative;
+    display: block;
+    flex: none;
+    width: 20px;
+    height: 20px;
+    border: 1px solid blue
+}
+
+.rc-cascader-checkbox:after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    content: ""
+}
+
+.rc-cascader-checkbox-checked:after {
+    content: "\2714\fe0f"
+}
+
+.rc-cascader-checkbox-indeterminate:after {
+    content: "\2796"
+}
+
+.rc-cascader-rtl {
+    direction: rtl
+}
+
+.rc-cascader-rtl .rc-cascader-menu {
+    flex: none;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-left: none;
+    border-right: 1px solid blue
+}
+
+.rc-cascader-rtl .rc-cascader-menu:first-child {
+    border-right: 0
+}
+
+.rc-cascader-panel {
+    border: 1px solid green
+}

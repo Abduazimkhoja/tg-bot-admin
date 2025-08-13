@@ -1,0 +1,14 @@
+@theme {
+  /* animations */
+  --animate-pulse-scale: scale-pulse 2s linear infinite;
+  --animate-pulse-opacity: pulse-opacity 2s ease-in-out infinite;
+  --animate-pulse: pulse 2s linear infinite;
+
+  /* --animate-spin: spin 1.5s linear infinite; */
+
+  @keyframes pulse {
+    50% {
+      opacity: 0.3;
+    }
+  }
+}
