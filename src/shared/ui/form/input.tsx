@@ -1,5 +1,5 @@
-import { cn } from "@/shared/lib/cn";
 import type { ComponentProps } from "react";
+import { cn } from "@/shared/lib/cn";
 
 export const Input = ({ className, type, ...props }: Props) => {
 	return (

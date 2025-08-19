@@ -10,6 +10,7 @@ import type { PageProps } from "next";
 import Image from "next/image";
 import NextImage from "public/next.svg";
 import { searchParamsCache } from "@/shared/lib/cached-search-params";
+import { request } from "@/shared/lib/request";
 import {
 	Accordion,
 	AccordionContent,
@@ -53,12 +54,17 @@ import {
 import { Pagination } from "@/shared/ui/data-display/pagination";
 import { Combobox } from "@/shared/ui/form/combobox";
 import Cascader from "@/shared/ui/overlay/cascader";
+import { ApiTest } from "./api-test";
 import PreviewErrorMessage from "./preview-error-message";
 import { PreviewSunEditor } from "./preview-sun-editor";
 
 const Page = async ({ params, searchParams }: PageProps) => {
 	// const { locale } = await params;
 	const { currentPage, perPage } = await searchParamsCache.parse(searchParams);
+
+	const test = await request.get({
+		endpoints: ["banners"],
+	});
 
 	const selectItems = [
 		{
@@ -77,6 +83,7 @@ const Page = async ({ params, searchParams }: PageProps) => {
 
 	return (
 		<>
+			<ApiTest />
 			<div className="font-bold text-2xl mb-4">
 				<span>Component info:</span>
 				<a

@@ -1,9 +1,9 @@
 "use client";
+import Link, { useLinkStatus } from "next/link";
+import type { ComponentProps } from "react";
 import { useCheckActiveRoute } from "@/shared/hooks/use-check-active-route";
 import { cn } from "@/shared/lib/cn";
 import { Loading } from "@/shared/ui";
-import Link, { useLinkStatus } from "next/link";
-import type { ComponentProps } from "react";
 
 export const NavLink = ({
 	children,

@@ -7,11 +7,7 @@ import { searchParamsParsers } from "@/shared/lib/cached-search-params";
 import { cn } from "@/shared/lib/cn";
 import { perPageParser } from "@/shared/lib/nuqs-custom-parsers/per-page-parser";
 import { Button, Select } from "@/shared/ui";
-import {
-	PaginationContent,
-	PaginationItem,
-	PaginationManual,
-} from "./manual";
+import { PaginationContent, PaginationItem, PaginationManual } from "./manual";
 
 export const Pagination = ({ totalPages }: Props) => {
 	const [{ currentPage, perPage }, setSearchParams] =

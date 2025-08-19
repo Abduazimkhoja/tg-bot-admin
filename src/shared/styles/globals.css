@@ -27,6 +27,10 @@ body {
   font-family: var(--font-inter-sans), Arial, Helvetica, sans-serif;
 }
 
+button {
+	cursor: pointer;
+}
+
 @utility flex-center {
   display: flex;
   justify-content: center;
@@ -58,4 +62,10 @@ body {
 
 ::-webkit-scrollbar-thumb:active {
   cursor: grabbing;
+}
+
+input:-webkit-autofill {
+  /* -webkit-text-fill-color: #ffffff; Цвет текста */
+  -webkit-box-shadow: 0 0 0px 1000px white inset; /* Цвет фона */
+  /* transition: background-color 5000s ease-in-out 0s; Убирает анимацию изменения цвета */
 }

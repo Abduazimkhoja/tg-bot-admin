@@ -20,6 +20,13 @@ import type { FC } from "react";
 export const getSidebarData = ({ hideList = [] }: Params = {}): SidebarData => {
 	return [
 		{
+			value: "home",
+			hide: hideList.includes("home"),
+			label: "Home",
+			link: "/",
+			icon: Home,
+		},
+		{
 			value: "demo",
 			hide: hideList.includes("demo"),
 			label: "Demo",
@@ -174,6 +181,7 @@ export type SidebarData = {
 }[];
 
 type SidebarValue =
+	| "home"
 	| "demo"
 	| "dashboard"
 	| "projects"

@@ -19,6 +19,7 @@
   &:where(input) {
     @apply inline-flex;
   }
+
   :where(input) {
     @apply inline-flex h-full w-full appearance-none bg-transparent;
     border: none;

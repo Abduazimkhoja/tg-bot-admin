@@ -1,6 +1,6 @@
-export type TPath = string | number | undefined;
+export type Paths = (string | number | undefined)[];
 
-export const formatterPaths = (...restPaths: (TPath[] | undefined)[]) => {
+export const formatterPaths = (...restPaths: (Paths | undefined)[]) => {
 	if (!restPaths) return "";
 	let formattedPath = "";
 

@@ -1,4 +1,4 @@
-import { Button } from "@/shared/ui";
+import { SignOutButton } from "../sign-out-button";
 import { getSidebarData } from "./sidebar-data";
 import { SidebarItems } from "./sidebar-items";
 
@@ -10,7 +10,7 @@ export const Sidebar = () => {
 			<ul className="flex flex-col gap-1 overflow-y-auto p-5">
 				<SidebarItems items={sidebarData} />
 			</ul>
-			<Button className="m-5">Log out</Button>
+			<SignOutButton className="mb-5 mx-5">Выйти</SignOutButton>
 		</aside>
 	);
 };

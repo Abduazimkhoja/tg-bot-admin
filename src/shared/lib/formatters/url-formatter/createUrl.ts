@@ -1,14 +1,14 @@
-import { type TQueryParams, createQueryParams } from "./createQueryParams";
-import { type TPath, formatterPaths } from "./formatPaths";
+import { createQueryParams, type TQueryParams } from "./createQueryParams";
+import { formatterPaths, type Paths } from "./formatPaths";
 
 type BuildUrlFunction = (options?: {
 	queryParams?: Partial<TQueryParams>;
-	endpoints?: TPath[];
+	endpoints?: Paths;
 }) => Pick<URL, "href" | "pathname" | "search" | "origin"> & { path: string };
 
 type CreateUrlFunction = (config: {
 	baseUrl: string;
-	basePaths?: TPath[];
+	basePaths?: Paths;
 }) => BuildUrlFunction;
 
 const initialValues = {

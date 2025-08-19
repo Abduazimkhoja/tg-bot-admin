@@ -5,7 +5,7 @@ const Layout = async ({ params, children }: LayoutProps) => {
 	return (
 		<>
 			<Sidebar />
-			<div className="p-20 overflow-x-auto">{children}</div>
+			<div className="p-20 w-full overflow-x-auto">{children}</div>
 		</>
 	);
 };

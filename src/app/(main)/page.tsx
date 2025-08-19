@@ -1,10 +1,10 @@
 import type { PageProps } from "next";
 
-const Page = async ({ params, searchParams }: PageProps) => {
+const Page = ({ params, searchParams }: PageProps) => {
 	// const { locale } = await params;
 	// const { search } = await searchParams;
 
-	return <div>login</div>;
+	return <div />;
 };
 
 export default Page;

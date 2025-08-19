@@ -20,7 +20,7 @@ export const Button = ({
 				children
 			) : (
 				<>
-					<span className="absolute inset-0 flex-center">
+					<span className="absolute inset-0 flex-center text-black opacity-30">
 						<Loading className="loading-spinner loading-xs" />
 					</span>
 					<span className={cn({ invisible: loading })}>{children}</span>

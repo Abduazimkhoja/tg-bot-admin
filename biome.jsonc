@@ -32,14 +32,14 @@
 			"a11y": {
 				"noSvgWithoutTitle": "off",
 				"useKeyWithClickEvents": "off",
-				"noLabelWithoutControl": "off",
+				"noLabelWithoutControl": "off"
 			},
 			"complexity": {
 				"noAdjacentSpacesInRegex": "error",
 				"noBannedTypes": "error",
 				"noExtraBooleanCast": "error",
 				"noUselessCatch": "error",
-				"noUselessTypeConstraint": "error",
+				"noUselessTypeConstraint": "error"
 			},
 			"correctness": {
 				"noUnusedFunctionParameters": "warn",
