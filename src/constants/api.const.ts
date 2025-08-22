@@ -5,6 +5,9 @@ export const API_ENDPOINTS = {
 	orders: "order",
 	users: "user",
 	login: "auth/login",
+	banners: "banners",
+	promoCodes: "promo-codes",
+	files: "file",
 
 	// example
 	example: "example",

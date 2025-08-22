@@ -1,10 +1,14 @@
 "use client";
 
 import { Plus } from "lucide-react";
+import { useSession } from "next-auth/react";
 import { type ChangeEvent, useRef, useState, useTransition } from "react";
 import toast from "react-hot-toast";
+import { createFile } from "@/api/file/api";
+import { ENV } from "@/constants/env.const";
 import { IMAGE_ACCEPTED_TYPES } from "@/constants/image.const";
 import { cn } from "@/shared/lib/cn";
+import { formatterPaths } from "@/shared/lib/formatters/url-formatter/formatPaths";
 import { imageFileValidation } from "@/shared/lib/validation-schemas/image-file-validation";
 import { NextImage } from "../media/next-image";
 
@@ -16,6 +20,7 @@ export const UploadImage = ({
 	onChange,
 	...restProps
 }: Props) => {
+	const session = useSession();
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	const [pending, startTransition] = useTransition();
 	const [isDragging, setIsDragging] = useState(false);
@@ -33,21 +38,27 @@ export const UploadImage = ({
 
 	const uploadFile = (files: File[]) => {
 		startTransition(async () => {
-			const data = new FormData();
+			const requests = files.map(async (file) => {
+				const data = new FormData();
+				data.append("file", file);
+				const response = await createFile({
+					body: data,
+					token: session.data?.accessToken || "",
+				});
 
-			files.forEach((file, index) => {
-				data.append(`file[${index}]`, file);
+				const imageUrl = response.data.path;
+
+				appendUrl(ENV.imageUrl({ endpoints: imageUrl.split("/") }).href);
+				autoUpload && onChange?.(imageUrl);
+
+				return response;
 			});
 
-			await fetch("/api/upload", {
-				method: "POST",
-				body: data,
-			});
+			const responses = await Promise.all(requests);
 
-			appendUrl("response url");
-			autoUpload && onChange?.("response url");
+			const isSuccess = responses.every((response) => response.data.path);
 
-			showToast && toast.success("Изображение загружено");
+			showToast && isSuccess && toast.success("Изображение загружено");
 		});
 	};
 

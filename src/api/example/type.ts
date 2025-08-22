@@ -13,15 +13,15 @@ import type {
 export type ExampleItem = z.infer<typeof exampleItemSchema>;
 
 // data list
-export type ExampleList = ExampleItem[];
+export type ExamplesList = ExampleItem[];
 
 // HTTPS 🚀
 
 // GetAll 🔵
-export type GetAllExampleResponse = PaginatedApiResponse<
+export type GetAllExamplesResponse = PaginatedApiResponse<
 	typeof exampleItemSchema
 >;
-export type GetAllExampleParams = {
+export type GetAllExamplesParams = {
 	searchParams?: {
 		query?: string;
 	};
@@ -31,9 +31,6 @@ export type GetAllExampleParams = {
 export type GetByIdExampleResponse = ApiResponse<typeof exampleItemSchema>;
 export type GetByIdExampleParams = {
 	id: ExampleItem["id"];
-	searchParams?: {
-		query?: string;
-	};
 };
 
 // Create 🟢

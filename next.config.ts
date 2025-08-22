@@ -85,6 +85,6 @@ const withBundleAnalyzer = BundleAnalyzer({
 
 export default withBundleAnalyzer(
 	// withNextIntl(
-	//	nextConfig
+		nextConfig
 	// )
 );

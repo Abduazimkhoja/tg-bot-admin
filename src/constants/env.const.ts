@@ -5,4 +5,8 @@ export const ENV = {
 		baseUrl: process.env.NEXT_PUBLIC_BACKEND_URL || "",
 		basePaths: ["api"],
 	}),
+	imageUrl: createUrl({
+		baseUrl: process.env.NEXT_PUBLIC_BACKEND_URL || "",
+		// basePaths: [""],
+	}),
 };

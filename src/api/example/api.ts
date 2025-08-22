@@ -5,25 +5,24 @@ import type {
 	CreateExampleResponse,
 	DeleteExampleParams,
 	DeleteExampleResponse,
-	GetAllExampleParams,
-	GetAllExampleResponse,
+	GetAllExamplesParams,
+	GetAllExamplesResponse,
 	GetByIdExampleParams,
 	GetByIdExampleResponse,
 	UpdateExampleParams,
 	UpdateExampleResponse,
 } from "./type";
 
-export const getAllExample = ({ searchParams }: GetAllExampleParams = {}) => {
-	return request.get<GetAllExampleResponse>({
+export const getAllExamples = ({ searchParams }: GetAllExamplesParams = {}) => {
+	return request.get<GetAllExamplesResponse>({
 		endpoints: [API_ENDPOINTS.example],
 		searchParams,
 	});
 };
 
-export const getByIdExample = ({ id, searchParams }: GetByIdExampleParams) => {
+export const getByIdExample = ({ id }: GetByIdExampleParams) => {
 	return request.get<GetByIdExampleResponse>({
 		endpoints: [API_ENDPOINTS.example, id],
-		searchParams,
 	});
 };
 

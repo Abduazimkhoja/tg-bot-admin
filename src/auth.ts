@@ -58,20 +58,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 					},
 				});
 
-				// const authResult = await fetch("https://api.s7dev.uz/api/auth/login", {
-				// 	method: "POST",
-				// 	headers: {
-				// 		"Content-Type": "application/json",
-				// 		Accept: "application/json",
-				// 	},
-				// 	body: JSON.stringify({
-				// 		username,
-				// 		password,
-				// 	}),
-				// });
-
-				// const accessToken = (await authResult.json()).token;
-
 				const accessToken = authResult?.token;
 
 				if (!accessToken) {

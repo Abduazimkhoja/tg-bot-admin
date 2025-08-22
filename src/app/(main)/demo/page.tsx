@@ -795,7 +795,7 @@ const Page = async ({ params, searchParams }: PageProps) => {
 
 			<div className="divider divider-primary">Image upload</div>
 
-			<UploadImage showToast multiple />
+			<UploadImage autoUpload showToast multiple />
 
 			<div className="divider divider-primary">Sun Editor</div>
 
