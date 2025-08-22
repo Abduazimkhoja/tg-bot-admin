@@ -26,13 +26,15 @@ async function handleRequest<T>(
 	method: "get" | "post" | "put" | "patch" | "delete",
 	options: CustomRequestOptions = {},
 ): Promise<T> {
+	const runtime = getRuntime();
+
 	const {
 		hostKey,
 		successMessage,
 		endpoints,
 		// По умолчанию уведомления включены для мутаций и выключены для запросов
-		autoToastSuccess = method !== "get",
-		autoToastError = true,
+		autoToastSuccess = runtime === "client" && method !== "get",
+		autoToastError = runtime === "client",
 		token,
 		...kyOptions
 	} = options;
@@ -52,21 +54,13 @@ async function handleRequest<T>(
 		};
 	}
 
-	const runtime = getRuntime();
-
 	try {
 		// ky автоматически парсит JSON и выбрасывает HTTPError при ошибке
 		const data = await api[method]("", kyOptions).json<T>();
 
 		const defaultResponse = data as ApiResponse<unknown>;
 
-		if (defaultResponse.statusCode === 401) {
-			runtime === "client" ? clientSignOut() : await serverSignOut();
-
-			return data;
-		}
-
-		if (runtime === "client" && autoToastSuccess) {
+		if (autoToastSuccess) {
 			toast.success(
 				successMessage ?? defaultResponse?.message?.ru ?? "Успешно",
 			);
@@ -74,19 +68,28 @@ async function handleRequest<T>(
 
 		return data;
 	} catch (error) {
-		if (runtime === "client" && autoToastError) {
+		if (autoToastError) {
 			let errorMessage = "Произошла неизвестная ошибка";
+			let statusCode: null | number = null;
+
 			if (error instanceof HTTPError) {
 				try {
 					// Попытка извлечь сообщение об ошибке из тела ответа
 					const errorJson = await error.response.json();
+
+					statusCode = error.response.status;
 					errorMessage =
 						findKey(errorJson, "message") || `Ошибка ${error.response.status}`;
 				} catch {
+					statusCode = error.response.status;
 					errorMessage = `Ошибка ${error.response.status}: ${error.response.statusText}`;
 				}
 			} else if (error instanceof Error) {
 				errorMessage = error.message;
+			}
+
+			if (statusCode === 401) {
+				runtime === "client" ? await clientSignOut() : await serverSignOut();
 			}
 			toast.error(errorMessage);
 		}
