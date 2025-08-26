@@ -8,7 +8,7 @@ import {
 	PopoverContent,
 	PopoverManual,
 	PopoverTrigger,
-} from "../overlay/popover";
+} from "../overlay/popover/manual";
 import {
 	CommandEmpty,
 	CommandGroup,

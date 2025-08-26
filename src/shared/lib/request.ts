@@ -62,7 +62,9 @@ async function handleRequest<T>(
 
 		if (autoToastSuccess) {
 			toast.success(
-				successMessage ?? defaultResponse?.message?.ru ?? "Успешно",
+				successMessage ??
+					defaultResponse?.message?.ru ??
+					"Операция прошла успешно",
 			);
 		}
 

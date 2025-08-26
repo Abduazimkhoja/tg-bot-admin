@@ -26,22 +26,25 @@ export const getByIdBanner = ({ id }: GetByIdBannerParams) => {
 	});
 };
 
-export const createBanner = ({ body }: CreateBannerParams) => {
+export const createBanner = ({ token, body }: CreateBannerParams) => {
 	return request.post<CreateBannerResponse>({
 		endpoints: [API_ENDPOINTS.banners],
 		json: body,
+		token,
 	});
 };
 
-export const updateBanner = ({ id, body }: UpdateBannerParams) => {
+export const updateBanner = ({ token, id, body }: UpdateBannerParams) => {
 	return request.put<UpdateBannerResponse>({
 		endpoints: [API_ENDPOINTS.banners, id],
 		json: body,
+		token,
 	});
 };
 
-export const deleteBanner = ({ id }: DeleteBannerParams) => {
+export const deleteBanner = ({ token, id }: DeleteBannerParams) => {
 	return request.delete<DeleteBannerResponse>({
 		endpoints: [API_ENDPOINTS.banners, id],
+		token,
 	});
 };

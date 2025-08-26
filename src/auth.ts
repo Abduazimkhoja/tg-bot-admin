@@ -66,7 +66,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
 				const decodedToken = jwtDecode<{ exp: number }>(accessToken);
 
-				console.log("accessToken", accessToken);
 				// Возвращаем объект пользователя с данными для хранения в JWT, включая токены из API
 				return {
 					id: username,

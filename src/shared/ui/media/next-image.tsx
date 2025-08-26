@@ -1,28 +1,27 @@
-import { createUrl } from "@/shared/lib/formatters/url-formatter/createUrl";
 import Image, { type ImageProps } from "next/image";
 import FallbackImage from "public/image-placeholder.svg";
-
-const imageHosts = {
-	base: "https://backend.com",
-};
+import { ENV } from "@/constants/env.const";
 
 export const NextImage = ({
-	selectHost = "base",
+	hostName = "imageUrl",
 	src = FallbackImage,
 	...restProps
 }: Props) => {
-	let srcPath = src;
+	let srcPath = typeof src === "string" && !src?.trim() ? FallbackImage : src;
 
-	if (selectHost && typeof src === "string") {
-		srcPath = createUrl({
-			baseUrl: imageHosts[selectHost],
-			basePaths: [src],
-		})().href;
+	if (
+		hostName &&
+		typeof src === "string" &&
+		!!src?.trim() &&
+		!src.includes("http") &&
+		!src.includes("blob:")
+	) {
+		srcPath = ENV[hostName]({ endpoints: [src] }).href;
 	}
 
 	return <Image src={srcPath} loading="lazy" {...restProps} />;
 };
 
 interface Props extends ImageProps {
-	selectHost?: keyof typeof imageHosts | null;
+	hostName?: keyof typeof ENV | null;
 }

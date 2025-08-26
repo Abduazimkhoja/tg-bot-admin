@@ -81,9 +81,9 @@
 
   &:is(:disabled, [disabled], .btn-disabled) {
     &:not(.btn-link, .btn-ghost) {
-      /* @apply bg-base-content/10; */
+      @apply bg-base-content/10;
 			/* @apply ; */
-			--btn-bg: color-mix(in oklch, var(--btn-color) 30%, #b5b5b5);;
+			/* --btn-bg: color-mix(in oklch, var(--btn-color) 30%, #00000000);; */
       box-shadow: none;
     }
 

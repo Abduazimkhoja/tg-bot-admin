@@ -1,65 +1,39 @@
 "use client";
 
-import { Plus } from "lucide-react";
-import { useSession } from "next-auth/react";
-import { type ChangeEvent, useRef, useState, useTransition } from "react";
+import { Plus, Trash2 } from "lucide-react";
+import { type ChangeEvent, useRef, useState } from "react";
 import toast from "react-hot-toast";
-import { createFile } from "@/api/file/api";
-import { ENV } from "@/constants/env.const";
 import { IMAGE_ACCEPTED_TYPES } from "@/constants/image.const";
 import { cn } from "@/shared/lib/cn";
-import { formatterPaths } from "@/shared/lib/formatters/url-formatter/formatPaths";
-import { imageFileValidation } from "@/shared/lib/validation-schemas/image-file-validation";
 import { NextImage } from "../media/next-image";
+import { ViewImage } from "../overlay/view-image";
+import { Button } from "./button";
 
 export const UploadImage = ({
 	defaultValue,
 	multiple,
-	autoUpload,
 	showToast,
+	limit = multiple ? 5 : 1,
+	wrapperClassName,
 	onChange,
+	onRemove,
+	disabled,
 	...restProps
 }: Props) => {
-	const session = useSession();
 	const fileInputRef = useRef<HTMLInputElement>(null);
-	const [pending, startTransition] = useTransition();
 	const [isDragging, setIsDragging] = useState(false);
-	const [imageUrls, setImageUrls] = useState<string[]>(
+
+	const [previewUrls, setPreviewUrls] = useState<string[]>(
 		defaultValue ? [defaultValue] : [],
 	);
 
-	const appendUrl = (url: string) => {
-		setImageUrls((urls) => [...urls, url]);
+	const appendUrls = (newUrls: string[]) => {
+		setPreviewUrls((currentUrls) => [...currentUrls, ...newUrls]);
 	};
 
 	const removeUrl = (removedUrl: string) => {
-		setImageUrls((urls) => urls.filter((url) => url !== removedUrl));
-	};
-
-	const uploadFile = (files: File[]) => {
-		startTransition(async () => {
-			const requests = files.map(async (file) => {
-				const data = new FormData();
-				data.append("file", file);
-				const response = await createFile({
-					body: data,
-					token: session.data?.accessToken || "",
-				});
-
-				const imageUrl = response.data.path;
-
-				appendUrl(ENV.imageUrl({ endpoints: imageUrl.split("/") }).href);
-				autoUpload && onChange?.(imageUrl);
-
-				return response;
-			});
-
-			const responses = await Promise.all(requests);
-
-			const isSuccess = responses.every((response) => response.data.path);
-
-			showToast && isSuccess && toast.success("Изображение загружено");
-		});
+		setPreviewUrls((urls) => urls.filter((url) => url !== removedUrl));
+		onRemove?.(removedUrl);
 	};
 
 	const changeFile = (
@@ -67,34 +41,37 @@ export const UploadImage = ({
 	) => {
 		if (!files) return;
 		const filesList = Array.from(files);
-		const validateImage = imageFileValidation(filesList);
 
-		if (!validateImage.success) {
-			showToast && toast.error(validateImage.issues[0].message);
-			return;
+		if (filesList.length + previewUrls.length >= limit) {
+			return toast.error(`Максимум ${limit} фото`);
 		}
+		// const validateImage = imageFileValidation(filesList);
 
-		if (autoUpload) {
-			uploadFile(filesList);
-		} else {
-			filesList.forEach((file) => {
-				appendUrl(URL.createObjectURL(file));
-			});
+		// if (validateImage.error) {
+		// 	const message = validateImage.error.issues?.[0].message;
 
-			onChange?.(filesList);
-		}
+		// 	showToast && toast.error(message);
+		// 	return;
+		// }
+
+		appendUrls(filesList.map((file) => URL.createObjectURL(file)));
+
+		onChange?.(multiple ? filesList : filesList[0]);
 	};
 
 	const handleDragOver = (e: React.DragEvent<HTMLButtonElement>) => {
+		if (disabled) return;
 		e.preventDefault(); // чтобы файл не открылся
 		setIsDragging(true);
 	};
 
 	const handleDragLeave = () => {
+		if (disabled) return;
 		setIsDragging(false);
 	};
 
 	const handleDrop = (e: React.DragEvent<HTMLButtonElement>) => {
+		if (disabled) return;
 		e.preventDefault();
 		changeFile(e.dataTransfer.files);
 		setIsDragging(false);
@@ -103,45 +80,63 @@ export const UploadImage = ({
 	return (
 		<div {...restProps}>
 			<input
-				disabled={pending}
-				defaultValue={defaultValue}
+				disabled={disabled}
 				className="sr-only"
 				ref={fileInputRef}
 				type="file"
 				multiple={multiple}
 				accept={IMAGE_ACCEPTED_TYPES.join(", ")}
+				max={limit - previewUrls.length}
 				onChange={({ target: { files } }) => changeFile(files)}
 			/>
-			<div className="relative flex gap-5 overflow-x-auto pb-2">
-				<div className="bg-white sticky left-0 z-10 pr">
-					<button
-						onDragOver={handleDragOver}
-						onDragLeave={handleDragLeave}
-						onDrop={handleDrop}
-						type="button"
-						className={cn(
-							"size-40 rounded-xl bg-gray-50 border-[3px] border-dashed border-gray-300 cursor-pointer hover:border-blue-400 transition-colors flex-none gap-1 text-gray-200",
-							isDragging ? "border-blue-500 bg-blue-50" : "border-gray-300",
-						)}
-						onClick={() => fileInputRef.current?.click()}
-					>
-						<Plus size={60} className="mx-auto" />
-					</button>
-				</div>
-				{imageUrls.map((url) => (
+			<div className="relative flex gap-5 overflow-x-auto">
+				{limit > previewUrls.length && (
+					<div className="bg-white sticky left-0 z-10 pr">
+						<button
+							disabled={disabled}
+							onDragOver={handleDragOver}
+							onDragLeave={handleDragLeave}
+							onDrop={handleDrop}
+							type="button"
+							className={cn(
+								"disabled:cursor-not-allowed disabled:hover:border-gray-300 size-40 rounded-xl bg-gray-50 border-[3px] border-dashed border-gray-300 cursor-pointer hover:border-blue-400 transition-colors flex-none gap-1 text-gray-200",
+								{ "border-blue-500 bg-blue-50 text-blue-500": isDragging },
+								wrapperClassName,
+							)}
+							onClick={() => fileInputRef.current?.click()}
+						>
+							<Plus
+								className={cn("mx-auto size-16", { "rotate-45": disabled })}
+							/>
+						</button>
+					</div>
+				)}
+				{previewUrls.map((url) => (
 					<div
 						key={url}
-						className="relative size-40 overflow-hidden rounded-xl flex-none bg-gray-50 border-[3px] border-gray-300 cursor-pointer hover:border-blue-400 transition-colors text-gray-200"
+						className={cn(
+							"relative size-40 overflow-hidden rounded-xl flex-none bg-gray-100 border-[3px] border-gray-300 cursor-pointer transition-colors text-gray-200",
+							wrapperClassName,
+						)}
 					>
 						<NextImage
-							className="size-40 object-contain"
-							onClick={() => removeUrl(url)}
-							selectHost={null}
+							className="size-full object-contain"
+							hostName={null}
 							key={url}
 							fill
 							src={url}
 							alt="local image"
 						/>
+						<div className="absolute inset-0 z-10 flex-center gap-2  bg-black/60 opacity-0 hover:opacity-100 transition-opacity">
+							<ViewImage imageUrl={url} />
+
+							<Button
+								onClick={() => removeUrl(url)}
+								className="btn-error btn-square"
+							>
+								<Trash2 className="size-4" />
+							</Button>
+						</div>
 					</div>
 				))}
 			</div>
@@ -149,20 +144,13 @@ export const UploadImage = ({
 	);
 };
 
-type Props = AutoUploadProps | ManualUploadProps;
-
-interface BaseProps {
+type Props = {
+	disabled?: boolean;
+	limit?: number;
 	defaultValue?: string;
 	multiple?: boolean;
 	showToast?: boolean;
-}
-
-interface AutoUploadProps extends BaseProps {
-	autoUpload: true;
-	onChange?: (value: string) => void;
-}
-
-interface ManualUploadProps extends BaseProps {
-	autoUpload?: false;
+	wrapperClassName?: string;
+	onRemove?: (value: string) => void;
 	onChange?: (value: File | File[]) => void;
-}
+};

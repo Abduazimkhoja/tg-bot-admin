@@ -8,7 +8,7 @@ import {
 } from "@/shared/ui";
 import type { SidebarData } from "./sidebar-data";
 
-export const SidebarItems = ({ className, items }: Props) => {
+export const SidebarList = ({ className, items }: Props) => {
 	// if (items.link === undefined && !items.children) return;
 
 	return items.map(
@@ -39,7 +39,7 @@ export const SidebarItems = ({ className, items }: Props) => {
 								</AccordionTrigger>
 								<AccordionContent>
 									<ul className="ml-5 pl-2 border-l border-gray-300">
-										<SidebarItems items={children} />
+										<SidebarList items={children} />
 									</ul>
 								</AccordionContent>
 							</AccordionItem>

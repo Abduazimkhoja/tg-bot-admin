@@ -5,3 +5,4 @@ export const fileItemSchema = z.object({
 });
 
 export const createFileBodySchema = z.instanceof(FormData);
+export const createFileFormSchema = z.array(z.file());

@@ -1,12 +1,12 @@
 export function findKey(
-	item: Record<string, unknown> | Record<string, unknown>[],
+	item: Record<string, unknown> | Record<string, unknown>[] | undefined,
 	searchedKey: string,
 	depth = 2,
 ): string | undefined {
 	if (depth < 0) return undefined;
 
 	// Проверяем, является ли текущий объект пустым или не объектом
-	if (typeof item !== "object" || item === null) {
+	if (typeof item !== "object" || item === null || !item) {
 		return undefined;
 	}
 

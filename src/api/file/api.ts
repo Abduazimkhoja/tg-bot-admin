@@ -7,13 +7,22 @@ import type {
 	DeleteFileResponse,
 } from "./type";
 
-export const createFile = ({ body, token }: CreateFileParams) => {
-	return request.post<CreateFileResponse>({
-		token,
-		endpoints: [API_ENDPOINTS.files],
-		body,
-		autoToastSuccess: false,
+export const createFiles = async ({ files, token }: CreateFileParams) => {
+	const requests = files.map(async (file) => {
+		const formData = new FormData();
+		formData.append("file", file);
+
+		return await request.post<CreateFileResponse>({
+			token,
+			endpoints: [API_ENDPOINTS.files],
+			body: formData,
+			autoToastSuccess: false,
+		});
 	});
+
+	const responses = await Promise.all(requests);
+
+	return { ...responses[0], data: responses.map(({ data }) => data) };
 };
 
 export const deleteFile = ({ fileName }: DeleteFileParams) => {

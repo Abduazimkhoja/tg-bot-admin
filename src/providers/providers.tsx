@@ -1,12 +1,15 @@
 import { SessionProvider } from "next-auth/react";
 import { NuqsAdapter } from "nuqs/adapters/next";
 import type { ReactNode } from "react";
+import { RQProvider } from "./rq-provider";
 
 export const Providers = ({ children }: Props) => {
 	return (
-		<SessionProvider>
-			<NuqsAdapter>{children}</NuqsAdapter>
-		</SessionProvider>
+		<RQProvider>
+			<SessionProvider>
+				<NuqsAdapter>{children}</NuqsAdapter>
+			</SessionProvider>
+		</RQProvider>
 	);
 };
 

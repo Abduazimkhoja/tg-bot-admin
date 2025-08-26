@@ -2,10 +2,11 @@ import type { Id } from "@/shared/types/shared.type";
 
 export const ROUTES_LIST = {
 	home: "/",
-	catalogs: "/catalogs",
-	catalog: (id: Id) => `/catalogs/${id}`,
+	demo: "/demo",
+	banners: "/banners",
+	banner: (id: Id) => `/banner/${id}`,
+	categories: "/categories",
+	category: (id: Id) => `/category/${id}`,
 	products: "/products",
 	product: (id: Id) => `/products/${id}`,
-	cart: "/cart",
-	favorites: "/favorites",
 } as const;

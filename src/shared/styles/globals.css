@@ -21,6 +21,11 @@
   @apply tracking-wider;
 } */
 
+html[data-refetching='true'] .animate-with-page-pending {
+	@apply animate-pulse;
+}
+
+
 body {
   background: var(--background);
   color: var(--foreground);
@@ -29,6 +34,43 @@ body {
 
 button {
 	cursor: pointer;
+}
+
+/* src/styles/globals.css */
+img {
+  position: relative;
+}
+
+img::before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #f0f0f0;
+  background-image: url('/image-placeholder.svg');
+  background-size: 50%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+img:not([src])::before {
+  content: " ";
+}
+
+img[src*="/broken-link"] {
+  /* Пример, если известен некорректный URL */
+}
+
+img:not([src])::before {
+    content: " ";
+}
+
+img[src*="/broken-link"]::before,
+img[alt][src*="/broken-link"]::before {
+    content: " ";
 }
 
 @utility flex-center {

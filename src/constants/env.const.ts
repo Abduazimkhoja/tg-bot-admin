@@ -10,3 +10,5 @@ export const ENV = {
 		// basePaths: [""],
 	}),
 };
+
+export const isDevelopment = process.env.NODE_ENV === "development";

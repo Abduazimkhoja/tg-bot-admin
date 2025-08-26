@@ -7,7 +7,7 @@ import type {
 
 export type ApiResponse<T> = z.infer<ReturnType<typeof apiResponseSchema<T>>>;
 
-export type PaginatedApiResponse<T> = z.infer<
+export type PaginatedApiResponse<T extends z.ZodTypeAny> = z.infer<
 	ReturnType<typeof paginatedApiResponseSchema<T>>
 >;
 

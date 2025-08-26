@@ -42,4 +42,5 @@ export * from "./navigation/nav-link";
 export * from "./overlay/dialog";
 export * from "./overlay/sheet";
 export * from "./overlay/popover";
+export * from "./overlay/popover/manual";
 export * from "./overlay/tooltip";

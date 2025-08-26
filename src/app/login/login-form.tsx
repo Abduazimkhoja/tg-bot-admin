@@ -1,4 +1,3 @@
-// app/ui/login-form.tsx
 "use client";
 
 import { EyeIcon, EyeOff } from "lucide-react";
@@ -8,6 +7,7 @@ import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import type { LoginBody } from "@/api/login/type";
+import { ROUTES_LIST } from "@/constants/routes-list.const";
 import { Button, FormField, Input } from "@/shared/ui";
 
 export default function LoginForm() {
@@ -32,7 +32,11 @@ export default function LoginForm() {
 			if (result?.error) {
 				toast.error(result.error);
 			} else {
-				router.push("/demo");
+				const callbackUrl = new URL(result?.url || "");
+				const redirectUrl =
+					callbackUrl?.searchParams.get("callbackUrl") || ROUTES_LIST.home;
+
+				router.push(redirectUrl);
 			}
 		});
 	};
@@ -73,7 +77,11 @@ export default function LoginForm() {
 				</label>
 			</FormField>
 
-			<Button loading={pending} type="submit" className="btn-info w-full mt-5">
+			<Button
+				loading={pending}
+				type="submit"
+				className="btn-info w-full mt-5 disabled:bg-gray-400! "
+			>
 				Войти
 			</Button>
 		</form>

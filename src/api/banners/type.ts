@@ -3,13 +3,22 @@ import type {
 	ApiResponse,
 	PaginatedApiResponse,
 } from "@/api/_api-configs/type";
-import type { bannerBodySchema, bannerItemSchema } from "./schema";
+import type {
+	bannerBodySchema,
+	bannerFormSchema,
+	bannerItemSchema,
+} from "./schema";
 
 // data item
 export type BannerItem = z.infer<typeof bannerItemSchema>;
 
 // data list
 export type BannersList = BannerItem[];
+
+// body
+export type BannersBody = z.infer<typeof bannerBodySchema>;
+
+export type BannersForm = z.infer<typeof bannerFormSchema>;
 
 // HTTPS 🚀
 
@@ -29,23 +38,22 @@ export type GetByIdBannerParams = {
 
 // Create 🟢
 export type CreateBannerResponse = ApiResponse<unknown>;
-export type CreateBannerBody = z.infer<typeof bannerBodySchema>;
-export type CreateBannerForm = CreateBannerBody;
 export type CreateBannerParams = {
-	body: CreateBannerBody;
+	body: BannersBody;
+	token: string;
 };
 
 // Update 🟡
 export type UpdateBannerResponse = ApiResponse<unknown>;
-export type UpdateBannerBody = z.infer<typeof bannerBodySchema>;
-export type UpdateBannerForm = UpdateBannerBody;
 export type UpdateBannerParams = {
 	id: BannerItem["id"];
-	body: UpdateBannerBody;
+	body: BannersBody;
+	token: string;
 };
 
 // Delete 🔴
 export type DeleteBannerResponse = ApiResponse<unknown>;
 export type DeleteBannerParams = {
 	id: BannerItem["id"];
+	token: string;
 };

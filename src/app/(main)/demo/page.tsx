@@ -54,6 +54,7 @@ import {
 import { Pagination } from "@/shared/ui/data-display/pagination";
 import { Combobox } from "@/shared/ui/form/combobox";
 import Cascader from "@/shared/ui/overlay/cascader";
+import { ViewImage } from "@/shared/ui/overlay/view-image";
 import { ApiTest } from "./api-test";
 import PreviewErrorMessage from "./preview-error-message";
 import { PreviewSunEditor } from "./preview-sun-editor";
@@ -795,7 +796,7 @@ const Page = async ({ params, searchParams }: PageProps) => {
 
 			<div className="divider divider-primary">Image upload</div>
 
-			<UploadImage autoUpload showToast multiple />
+			<UploadImage showToast multiple />
 
 			<div className="divider divider-primary">Sun Editor</div>
 
@@ -853,6 +854,10 @@ const Page = async ({ params, searchParams }: PageProps) => {
 					},
 				]}
 			/>
+			<div className="divider divider-primary">View images</div>
+
+			<ViewImage imageUrl="" />
+			<ViewImage imageUrl={["", ""]} />
 		</>
 	);
 };

@@ -14,9 +14,11 @@ export function apiResponseSchema<T>(dataSchema: T) {
 }
 
 // Paginated Response Schema
-export function paginatedApiResponseSchema<T>(dataSchema: T) {
+export function paginatedApiResponseSchema<T extends z.ZodTypeAny>(
+	dataSchema: T,
+) {
 	return z.object({
-		data: dataSchema,
+		data: z.array(dataSchema),
 		message: localizedStringSchema(),
 		statusCode: z.number().int(),
 		pagination: paginationMetaSchema,

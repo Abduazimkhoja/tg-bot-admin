@@ -6,12 +6,13 @@ export const Button = ({
 	className,
 	children,
 	loading,
+	type = "button",
 	disabled,
 	...restProps
 }: Props) => {
 	return (
 		<button
-			type="button"
+			type={type}
 			className={cn("btn", { relative: loading }, className)}
 			disabled={disabled || loading}
 			{...restProps}
