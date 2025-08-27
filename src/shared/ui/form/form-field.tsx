@@ -9,10 +9,14 @@ export const FormField = ({
 	error,
 	htmlFor,
 	wrappedLabel = true,
+	required,
 }: Props) => {
 	return wrappedLabel ? (
 		<label htmlFor={htmlFor} className={cn("fieldset", className)}>
-			<span className={cn("fieldset-legend", labelClassName)}>{label}</span>
+			<span className={cn("fieldset-legend", labelClassName)}>
+				{label}
+				{required && <span className="text-red-500">*</span>}
+			</span>
 			{children}
 			{error && (
 				<span className={"label text-red-400 leading-none mt-1"}>{error}</span>
@@ -25,6 +29,7 @@ export const FormField = ({
 				className={cn("fieldset-legend", labelClassName)}
 			>
 				{label}
+				{required && <span className="text-red-500">*</span>}
 			</label>
 			{children}
 			{error && (
@@ -42,4 +47,5 @@ interface Props {
 	label: ReactNode;
 	error?: string | null | undefined;
 	children: ReactNode;
+	required?: boolean;
 }

@@ -3,13 +3,20 @@ import type {
 	ApiResponse,
 	PaginatedApiResponse,
 } from "@/api/_api-configs/type";
-import type { categoryBodySchema, categoryItemSchema } from "./schema";
+import type {
+	categoryBodySchema,
+	categoryFormSchema,
+	categoryItemSchema,
+} from "./schema";
 
 // data item
 export type CategoryItem = z.infer<typeof categoryItemSchema>;
 
 // data list
 export type CategoriesList = CategoryItem[];
+
+export type CategoriesBody = z.infer<typeof categoryBodySchema>;
+export type CategoriesForm = z.infer<typeof categoryFormSchema>;
 
 // HTTPS 🚀
 
@@ -33,23 +40,22 @@ export type GetByIdCategoryParams = {
 
 // Create 🟢
 export type CreateCategoryResponse = ApiResponse<unknown>;
-export type CreateCategoryBody = z.infer<typeof categoryBodySchema>;
-export type CreateCategoryForm = CreateCategoryBody;
 export type CreateCategoryParams = {
-	body: CreateCategoryBody;
+	body: CategoriesBody;
+	token: string;
 };
 
 // Update 🟡
 export type UpdateCategoryResponse = ApiResponse<unknown>;
-export type UpdateCategoryBody = z.infer<typeof categoryBodySchema>;
-export type UpdateCategoryForm = UpdateCategoryBody;
 export type UpdateCategoryParams = {
 	id: CategoryItem["id"];
-	body: UpdateCategoryBody;
+	body: CategoriesBody;
+	token: string;
 };
 
 // Delete 🔴
 export type DeleteCategoryResponse = ApiResponse<unknown>;
 export type DeleteCategoryParams = {
 	id: CategoryItem["id"];
+	token: string;
 };

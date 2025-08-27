@@ -1,22 +1,21 @@
 import { Plus } from "lucide-react";
 import type { PageProps } from "next";
+import { Suspense } from "react";
 import { searchParamsCache } from "@/shared/lib/cached-search-params";
-import { Button } from "@/shared/ui";
+import { Button, Skeleton } from "@/shared/ui";
 import { PageHead } from "@/shared/ui/layout/page-head";
-import { BannerList } from "./banner-list";
-import { BannerSheet } from "./features/banner-sheet";
+import { CategorySheet } from "./features/category-sheet";
+import { PageTable } from "./page-table";
 
 const Page = async ({ params, searchParams }: PageProps) => {
 	// const { locale } = await params;
 	await searchParamsCache.parse(searchParams);
 
-	// const bannersPromise = getAllBanners();
-
 	return (
 		<>
-			<PageHead title="Баннеры">
-				<BannerSheet
-					title="Создать баннер"
+			<PageHead title="Категории">
+				<CategorySheet
+					title="Создать категорию"
 					trigger={
 						<Button>
 							<Plus strokeWidth={1.5} size={20} /> Добавить
@@ -25,9 +24,9 @@ const Page = async ({ params, searchParams }: PageProps) => {
 				/>
 			</PageHead>
 
-			{/* <Suspense fallback={<Skeleton className="h-40 w-full" />}> */}
-			<BannerList />
-			{/* </Suspense> */}
+			<Suspense fallback={<Skeleton className="h-80 w-full" />}>
+				<PageTable />
+			</Suspense>
 		</>
 	);
 };

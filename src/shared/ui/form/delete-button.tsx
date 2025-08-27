@@ -1,7 +1,6 @@
 "use client";
 import { Trash2, TriangleAlert } from "lucide-react";
-import { useState } from "react";
-import { useTransition } from "@/shared/hooks";
+import { useState, useTransition } from "react";
 import { cn } from "@/shared/lib/cn";
 import {
 	PopoverContent,
@@ -27,7 +26,7 @@ export const DeleteButton = ({
 					loading={pending}
 					className={cn("btn-square btn-error", { open }, className)}
 				>
-					<Trash2 className="size-4.5" />
+					<Trash2 className="size-[55%]" />
 				</Button>
 			</PopoverTrigger>
 			<PopoverContent className="w-fit px-5 py-3">

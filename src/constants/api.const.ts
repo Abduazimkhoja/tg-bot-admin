@@ -1,7 +1,7 @@
 export const API_ENDPOINTS = {
 	products: "product",
 	cart: "cart",
-	categories: "category",
+	categories: "categories",
 	orders: "order",
 	users: "user",
 	login: "auth/login",

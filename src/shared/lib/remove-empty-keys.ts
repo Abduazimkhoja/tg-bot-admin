@@ -1,4 +1,6 @@
-export const removeEmptyKeys = (object: Record<string, unknown>) => {
+export const removeEmptyKeys = <T extends Record<string, unknown>>(
+	object: T,
+) => {
 	const cleaned: Record<string, unknown> = {};
 
 	for (const key in object) {
@@ -14,5 +16,5 @@ export const removeEmptyKeys = (object: Record<string, unknown>) => {
 		cleaned[key] = value;
 	}
 
-	return cleaned;
+	return cleaned as T;
 };

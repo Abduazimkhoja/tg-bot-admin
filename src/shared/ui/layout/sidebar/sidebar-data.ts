@@ -1,8 +1,8 @@
 import {
+	ChartColumnStacked,
 	FlaskConical,
 	GalleryHorizontal,
 	Home,
-	LayoutDashboard,
 	type LucideProps,
 } from "lucide-react";
 import type { FC } from "react";
@@ -38,6 +38,13 @@ export const getSidebarData = ({ hideList = [] }: Params = {}): SidebarData => {
 			link: ROUTES_LIST.banners,
 			icon: GalleryHorizontal,
 		},
+		{
+			value: "categories",
+			hide: hideList.includes("categories"),
+			label: "Категории",
+			link: ROUTES_LIST.categories,
+			icon: ChartColumnStacked,
+		},
 	];
 };
 
@@ -59,6 +66,7 @@ export const SidebarValue = {
 	demo: "demo",
 	dashboard: "dashboard",
 	banners: "banners",
+	categories: "categories",
 } as const;
 
 export type SidebarValue = keyof typeof SidebarValue;

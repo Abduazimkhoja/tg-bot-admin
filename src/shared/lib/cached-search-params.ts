@@ -1,4 +1,8 @@
-import { createParser, createSearchParamsCache } from "nuqs/server";
+import {
+	createParser,
+	createSearchParamsCache,
+	parseAsString,
+} from "nuqs/server";
 import { PAGINATION_PER_PAGE } from "@/constants/pagination.const";
 import { pageParser } from "./nuqs-custom-parsers/page-parser";
 import { perPageParser } from "./nuqs-custom-parsers/per-page-parser";
@@ -18,7 +22,7 @@ export const parseAsPerPage = createParser({
 });
 
 export const searchParamsParsers = {
-	currentPage: parseAsPage.withDefault(1).withOptions({
+	page: parseAsPage.withDefault(1).withOptions({
 		shallow: false,
 		history: "push",
 		clearOnDefault: true,
@@ -29,6 +33,10 @@ export const searchParamsParsers = {
 		history: "push",
 		clearOnDefault: true,
 		scroll: true,
+	}),
+	query: parseAsString.withDefault("").withOptions({
+		shallow: false,
+		history: "push",
 	}),
 };
 

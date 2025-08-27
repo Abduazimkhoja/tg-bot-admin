@@ -22,7 +22,7 @@ export const ViewImage = ({ imageUrl, triggerClassName }: Props) => {
 				<Button
 					className={cn("btn-success btn-soft btn-square", triggerClassName)}
 				>
-					<Eye size={18} />
+					<Eye className="size-[55%]" />
 				</Button>
 			</DialogTrigger>
 
@@ -30,32 +30,30 @@ export const ViewImage = ({ imageUrl, triggerClassName }: Props) => {
 				// showCloseButton={false}
 				className={cn(
 					"bg-transparent border-none shadow-none rounded-none",
-					"max-w-[90vw] max-h-[90vh]",
+					"max-w-[80vw] max-h-[80vh]",
 				)}
 			>
 				<DialogHeader className="sr-only">
 					<DialogTitle>Просмотр изображения</DialogTitle>
 				</DialogHeader>
 				{Array.isArray(imageUrl) ? (
-					<div className="flex">
-						{imageUrl.map((image, index) => (
-							<div
-								key={image}
-								className={cn("overflow-hidden", {
-									block: index === viewedImageIndex,
-								})}
-							>
-								<NextImage
-									className="size-full object-contain"
-									width={1000}
-									height={1000}
-									unoptimized
-									src={image}
-									alt="local image"
-								/>
-							</div>
-						))}
-					</div>
+					imageUrl.map((image, index) => (
+						<div
+							key={image}
+							className={cn("overflow-hidden hidden", {
+								block: index === viewedImageIndex,
+							})}
+						>
+							<NextImage
+								className="size-full object-contain"
+								width={1000}
+								height={1000}
+								unoptimized
+								src={image}
+								alt="local image"
+							/>
+						</div>
+					))
 				) : (
 					<div className="overflow-hidden">
 						<NextImage

@@ -39,10 +39,10 @@ async function handleRequest<T>(
 		...kyOptions
 	} = options;
 
-	const searchParams = kyOptions.searchParams;
+	let searchParams = kyOptions.searchParams;
 
 	if (isPlainObject(searchParams)) {
-		removeEmptyKeys(searchParams);
+		searchParams = removeEmptyKeys(searchParams);
 	}
 
 	const api = kyInstance({ hostKey, endpoints });

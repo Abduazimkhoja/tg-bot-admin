@@ -13,18 +13,17 @@ export const useRefetchStore = create<State>((set) => ({
 	setRefetching: (val) => set({ isRefetching: val }),
 }));
 
-export const useTransition = () => {
+export function useTransition() {
 	const [isPending, startTransition] = useReactTransition();
-	const setRefetching = useRefetchStore((s) => s.setRefetching);
+	const { setRefetching, isRefetching } = useRefetchStore((s) => s);
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: no need
 	useEffect(() => {
+		if (isPending === isRefetching) return;
+
 		setRefetching(isPending);
+		document.documentElement.dataset.refetching = String(isPending);
 	}, [isPending, setRefetching]);
 
-	// сразу обновляем DOM
-	useEffect(() => {
-		document.documentElement.dataset.refetching = String(isPending);
-	}, [isPending]);
-
 	return [isPending, startTransition] as const;
-};
+}

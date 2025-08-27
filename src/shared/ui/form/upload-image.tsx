@@ -1,7 +1,7 @@
 "use client";
 
 import { Plus, Trash2 } from "lucide-react";
-import { type ChangeEvent, useRef, useState } from "react";
+import { type ChangeEvent, type ComponentProps, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { IMAGE_ACCEPTED_TYPES } from "@/constants/image.const";
 import { cn } from "@/shared/lib/cn";
@@ -18,6 +18,7 @@ export const UploadImage = ({
 	onChange,
 	onRemove,
 	disabled,
+	triggerProps,
 	...restProps
 }: Props) => {
 	const fileInputRef = useRef<HTMLInputElement>(null);
@@ -100,11 +101,14 @@ export const UploadImage = ({
 							onDrop={handleDrop}
 							type="button"
 							className={cn(
-								"disabled:cursor-not-allowed disabled:hover:border-gray-300 size-40 rounded-xl bg-gray-50 border-[3px] border-dashed border-gray-300 cursor-pointer hover:border-blue-400 transition-colors flex-none gap-1 text-gray-200",
-								{ "border-blue-500 bg-blue-50 text-blue-500": isDragging },
+								"size-40 rounded-xl bg-gray-50 border-[3px] border-dashed border-gray-300 cursor-pointer transition-colors flex-none gap-1 text-gray-200",
+								"disabled:cursor-not-allowed disabled:hover:border-gray-300",
+								"hover:border-blue-400 active:border-blue-500 focus:border-blue-500 focus-visible:border-blue-500 has-focus-within:border-blue-500",
+								{ "border-blue-500 bg-blue-50 text-blue-500 ": isDragging },
 								wrapperClassName,
 							)}
 							onClick={() => fileInputRef.current?.click()}
+							{...triggerProps}
 						>
 							<Plus
 								className={cn("mx-auto size-16", { "rotate-45": disabled })}
@@ -154,4 +158,5 @@ type Props = {
 	wrapperClassName?: string;
 	onRemove?: (value: string) => void;
 	onChange?: (value: File | File[]) => void;
+	triggerProps?: ComponentProps<typeof Button>;
 };

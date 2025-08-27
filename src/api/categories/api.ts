@@ -28,22 +28,25 @@ export const getByIdCategory = ({ id }: GetByIdCategoryParams) => {
 	});
 };
 
-export const createCategory = ({ body }: CreateCategoryParams) => {
+export const createCategory = ({ body, token }: CreateCategoryParams) => {
 	return request.post<CreateCategoryResponse>({
 		endpoints: [API_ENDPOINTS.categories],
 		json: body,
+		token,
 	});
 };
 
-export const updateCategory = ({ id, body }: UpdateCategoryParams) => {
+export const updateCategory = ({ id, body, token }: UpdateCategoryParams) => {
 	return request.put<UpdateCategoryResponse>({
 		endpoints: [API_ENDPOINTS.categories, id],
 		json: body,
+		token,
 	});
 };
 
-export const deleteCategory = ({ id }: DeleteCategoryParams) => {
+export const deleteCategory = ({ id, token }: DeleteCategoryParams) => {
 	return request.delete<DeleteCategoryResponse>({
 		endpoints: [API_ENDPOINTS.categories, id],
+		token,
 	});
 };

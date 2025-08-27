@@ -1,45 +1,45 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useQueryClient } from "@tanstack/react-query";
 import { CircleQuestionMark } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useRef } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { createBanner, updateBanner } from "@/api/banners/api";
-import { bannerFormSchema } from "@/api/banners/schema";
-import type { BannerItem, BannersForm } from "@/api/banners/type";
+import { createCategory, updateCategory } from "@/api/categories/api";
+import { categoryFormSchema } from "@/api/categories/schema";
+import type { CategoriesForm, CategoryItem } from "@/api/categories/type";
 import { createFiles } from "@/api/file/api";
-import { API_ENDPOINTS } from "@/constants/api.const";
 import { ENV } from "@/constants/env.const";
-import { useTransition } from "@/shared/hooks";
 import { findKey } from "@/shared/lib/find-key";
 import {
 	Button,
 	FormField,
+	Input,
 	Popover,
 	SheetClose,
 	UploadImage,
 } from "@/shared/ui";
 
-export const BannerForm = ({ banner }: Props) => {
+export const CategoryForm = ({ category, pending, startTransition }: Props) => {
 	const session = useSession();
 	const token = session.data?.accessToken || "";
+	const router = useRouter();
 	const sheetCloseRef = useRef<HTMLButtonElement>(null);
-	const queryClient = useQueryClient();
-	const [pending, startTransition] = useTransition();
 
 	const {
 		handleSubmit,
 		control,
 		formState: { errors },
-	} = useForm<BannersForm>({
-		resolver: zodResolver(bannerFormSchema),
+		register,
+	} = useForm<CategoriesForm>({
+		resolver: zodResolver(categoryFormSchema),
 		defaultValues: {
-			image: banner?.imageUrl,
+			name: category?.name,
+			image: category?.image,
 		},
 	});
 
-	const onSubmit = ({ image }: BannersForm) => {
+	const onSubmit = ({ image, name }: CategoriesForm) => {
 		startTransition(async () => {
 			let imageUrl = "";
 
@@ -54,24 +54,26 @@ export const BannerForm = ({ banner }: Props) => {
 				imageUrl = image;
 			}
 
-			if (banner) {
-				await updateBanner({
-					id: banner.id,
+			if (category) {
+				await updateCategory({
+					id: category.id,
 					body: {
-						imageUrl,
+						name,
+						image: imageUrl,
 					},
 					token,
 				});
 			} else {
-				await createBanner({
+				await createCategory({
 					body: {
-						imageUrl,
+						name,
+						image: imageUrl,
 					},
 					token,
 				});
 			}
 
-			queryClient.invalidateQueries({ queryKey: [API_ENDPOINTS.banners] });
+			router.refresh();
 			sheetCloseRef.current?.click();
 		});
 	};
@@ -81,17 +83,19 @@ export const BannerForm = ({ banner }: Props) => {
 			<SheetClose ref={sheetCloseRef} className="hidden" />
 			<form className="px-5" onSubmit={handleSubmit(onSubmit)}>
 				<FormField
+					required
 					htmlFor="image"
 					wrappedLabel={false}
 					label={
 						<>
-							Фото <span className="text-red-400">*</span>
+							Фото
 							<Popover
+								triggerProps={{ tabIndex: 0 }}
 								label={
 									<CircleQuestionMark className="text-gray-400 size-5 ml-2 hover:text-blue-300" />
 								}
 							>
-								Соотношение сторон должно быть 2:1
+								Соотношение сторон должно быть 1:1
 							</Popover>
 						</>
 					}
@@ -102,16 +106,49 @@ export const BannerForm = ({ banner }: Props) => {
 						name="image"
 						render={({ field }) => (
 							<UploadImage
-								wrapperClassName="aspect-[2/1] w-auto"
 								onRemove={() => field.onChange(undefined)}
 								onChange={field.onChange}
 								multiple={false}
 								defaultValue={
-									banner?.imageUrl &&
-									ENV.imageUrl({ endpoints: [banner?.imageUrl] }).href
+									category?.image &&
+									ENV.imageUrl({ endpoints: [category?.image] }).href
 								}
 							/>
 						)}
+					/>
+				</FormField>
+
+				<FormField
+					required
+					label="Название (рус)"
+					error={findKey(errors?.name, "message")}
+				>
+					<Input
+						{...register("name.ru")}
+						placeholder="Название на русском"
+						type="text"
+					/>
+				</FormField>
+				<FormField
+					required
+					label="Название (узб)"
+					error={findKey(errors?.name, "message")}
+				>
+					<Input
+						{...register("name.uz")}
+						placeholder="Название на узбекском"
+						type="text"
+					/>
+				</FormField>
+				<FormField
+					required
+					label="Название (анг)"
+					error={findKey(errors?.name, "message")}
+				>
+					<Input
+						{...register("name.en")}
+						placeholder="Название на английском"
+						type="text"
 					/>
 				</FormField>
 
@@ -128,5 +165,7 @@ export const BannerForm = ({ banner }: Props) => {
 };
 
 interface Props {
-	banner?: BannerItem;
+	pending: boolean;
+	startTransition: (callback: () => void) => void;
+	category?: CategoryItem;
 }

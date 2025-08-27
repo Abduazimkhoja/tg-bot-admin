@@ -1,18 +1,20 @@
 "use client";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { useQueryStates } from "nuqs";
-import { useTransition } from "react";
 import { PAGINATION_LIMITS } from "@/constants/pagination.const";
+import { useTransition } from "@/shared/hooks";
 import { searchParamsParsers } from "@/shared/lib/cached-search-params";
 import { cn } from "@/shared/lib/cn";
 import { perPageParser } from "@/shared/lib/nuqs-custom-parsers/per-page-parser";
 import { Button, Select } from "@/shared/ui";
 import { PaginationContent, PaginationItem, PaginationManual } from "./manual";
 
-export const Pagination = ({ totalPages }: Props) => {
-	const [{ currentPage, perPage }, setSearchParams] =
+export const Pagination = ({ totalPages, totalElements }: Props) => {
+	const [{ page: currentPage, perPage }, setSearchParams] =
 		useQueryStates(searchParamsParsers);
-	const [pending, startTransition] = useTransition();
+	const [_, startTransition] = useTransition();
+
+	if (totalElements >= PAGINATION_LIMITS[0]) return;
 
 	const visiblePages = 6; // Количество видимых страниц, включая первую и последнюю
 
@@ -65,8 +67,8 @@ export const Pagination = ({ totalPages }: Props) => {
 	}));
 
 	return (
-		<div data-pending={pending ? "" : undefined} className="flex pl-24 mt-5">
-			<PaginationManual>
+		<div className="flex pl-24 mt-5">
+			<PaginationManual className={cn({ invisible: totalPages < 2 })}>
 				<PaginationContent>
 					<PaginationItem>
 						<Button
@@ -74,7 +76,7 @@ export const Pagination = ({ totalPages }: Props) => {
 							onClick={() =>
 								setSearchParams(
 									{
-										currentPage: currentPage - 1,
+										page: currentPage - 1,
 									},
 									{ startTransition },
 								)
@@ -107,7 +109,7 @@ export const Pagination = ({ totalPages }: Props) => {
 									onClick={() =>
 										setSearchParams(
 											{
-												currentPage:
+												page:
 													page === "..." ? getMiddlePage(index) : Number(page),
 											},
 											{ startTransition },
@@ -147,7 +149,7 @@ export const Pagination = ({ totalPages }: Props) => {
 							onClick={() =>
 								setSearchParams(
 									{
-										currentPage: currentPage + 1,
+										page: currentPage + 1,
 									},
 									{ startTransition },
 								)
@@ -177,7 +179,7 @@ export const Pagination = ({ totalPages }: Props) => {
 					setSearchParams(
 						{
 							perPage: perPageParser(value),
-							currentPage: 1,
+							page: 1,
 						},
 						{ startTransition },
 					)
@@ -192,4 +194,5 @@ export const Pagination = ({ totalPages }: Props) => {
 
 interface Props {
 	totalPages: number;
+	totalElements: number;
 }

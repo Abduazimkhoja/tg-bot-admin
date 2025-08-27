@@ -61,7 +61,8 @@ import { PreviewSunEditor } from "./preview-sun-editor";
 
 const Page = async ({ params, searchParams }: PageProps) => {
 	// const { locale } = await params;
-	const { currentPage, perPage } = await searchParamsCache.parse(searchParams);
+	const { page: currentPage, perPage } =
+		await searchParamsCache.parse(searchParams);
 
 	const test = await request.get({
 		endpoints: ["banners"],
@@ -723,7 +724,7 @@ const Page = async ({ params, searchParams }: PageProps) => {
 						</TableRow>
 					</TableBody>
 				</TableManual>
-				<Pagination totalPages={200} />
+				<Pagination totalElements={400} totalPages={200} />
 			</div>
 
 			<div className="divider divider-primary">Tooltip</div>
