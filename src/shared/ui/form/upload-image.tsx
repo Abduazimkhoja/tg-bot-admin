@@ -40,10 +40,11 @@ export const UploadImage = ({
 		files: ChangeEvent<HTMLInputElement>["target"]["files"],
 	) => {
 		if (!files) return;
-		const filesList = Array.from(files);
+		let filesList = Array.from(files);
 
-		if (filesList.length + previewUrls.length >= limit) {
-			return toast.error(`Максимум ${limit} фото`);
+		if (filesList.length + previewUrls.length > limit) {
+			toast.error(`Максимум ${limit} фото`);
+			filesList = filesList.slice(0, limit - previewUrls.length);
 		}
 		// const validateImage = imageFileValidation(filesList);
 
