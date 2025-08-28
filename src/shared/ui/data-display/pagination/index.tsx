@@ -14,7 +14,7 @@ export const Pagination = ({ totalPages, totalElements }: Props) => {
 		useQueryStates(searchParamsParsers);
 	const [_, startTransition] = useTransition();
 
-	if (totalElements >= PAGINATION_LIMITS[0]) return;
+	if (totalElements <= PAGINATION_LIMITS[0]) return;
 
 	const visiblePages = 6; // Количество видимых страниц, включая первую и последнюю
 

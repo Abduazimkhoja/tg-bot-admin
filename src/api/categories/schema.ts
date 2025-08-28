@@ -14,6 +14,7 @@ export const categoryBodySchema = z.object({
 });
 
 export const categoryFormSchema = z.object({
-	name: localizedStringSchema(),
+	...categoryBodySchema.shape,
+
 	image: z.union([imageFileSchema, z.string()]),
 });

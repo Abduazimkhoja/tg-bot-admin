@@ -4,7 +4,8 @@
   grid-template-columns: 1fr;
   grid-auto-rows: max-content;
 
-  &:has([required]) .fieldset-legend::after {
+  &:has([required]) .fieldset-legend::after,
+	&.required .fieldset-legend::after{
     content: "*";
     @apply text-error ml-1 text-base;
   }

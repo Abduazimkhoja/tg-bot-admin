@@ -25,7 +25,11 @@ export const UploadImage = ({
 	const [isDragging, setIsDragging] = useState(false);
 
 	const [previewUrls, setPreviewUrls] = useState<string[]>(
-		defaultValue ? [defaultValue] : [],
+		Array.isArray(defaultValue)
+			? defaultValue
+			: defaultValue
+				? [defaultValue]
+				: [],
 	);
 
 	const appendUrls = (newUrls: string[]) => {
@@ -80,7 +84,7 @@ export const UploadImage = ({
 	};
 
 	return (
-		<div {...restProps}>
+		<div {...restProps} className={cn("overflow-hidden", restProps?.className)}>
 			<input
 				disabled={disabled}
 				className="sr-only"
@@ -93,7 +97,7 @@ export const UploadImage = ({
 			/>
 			<div className="relative flex gap-5 overflow-x-auto">
 				{limit > previewUrls.length && (
-					<div className="bg-white sticky left-0 z-10 pr">
+					<div className="bg-white sticky left-0 z-20 pr-2">
 						<button
 							disabled={disabled}
 							onDragOver={handleDragOver}
@@ -150,9 +154,10 @@ export const UploadImage = ({
 };
 
 type Props = {
+	className?: string;
 	disabled?: boolean;
 	limit?: number;
-	defaultValue?: string;
+	defaultValue?: string | string[];
 	multiple?: boolean;
 	showToast?: boolean;
 	wrapperClassName?: string;

@@ -12,6 +12,7 @@ export * from "./form/switch";
 export * from "./form/upload-image";
 export * from "./form/sun-editor";
 export * from "./form/command";
+export * from "./form/combobox";
 
 // data-display
 export * from "./data-display/accordion";

@@ -17,11 +17,16 @@ export const SunEditor = ({
 	...restEditorProps
 }: Props) => {
 	return (
-		<div className={cn("*:font-[inherit]!", wrapperClass)}>
+		<div
+			className={cn(
+				"*:font-[inherit]! [&_.sun-editor-editable]:cursor-text min-h-[415px]",
+				wrapperClass,
+			)}
+		>
 			<SunEditorManual
 				// lang="ru"
 				setOptions={{
-					className,
+					className: cn("", className),
 					minHeight: "300px",
 					showPathLabel: false,
 					imageUploadHeader: {
@@ -58,7 +63,7 @@ export const SunEditor = ({
 						["removeFormat"],
 					],
 				}}
-				placeholder="Type or paste your content here!"
+				// placeholder="Type or paste your content here!"
 				{...restEditorProps}
 			/>
 		</div>

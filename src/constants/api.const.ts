@@ -1,5 +1,5 @@
 export const API_ENDPOINTS = {
-	products: "product",
+	products: "products",
 	cart: "cart",
 	categories: "categories",
 	orders: "order",

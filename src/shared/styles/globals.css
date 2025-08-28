@@ -32,6 +32,10 @@ body {
   font-family: var(--font-inter-sans), Arial, Helvetica, sans-serif;
 }
 
+@utility main-content {
+	@apply px-7 pb-8 w-full;
+}
+
 button {
 	cursor: pointer;
 }

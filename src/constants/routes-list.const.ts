@@ -8,5 +8,5 @@ export const ROUTES_LIST = {
 	categories: "/categories",
 	category: (id: Id) => `/category/${id}`,
 	products: "/products",
-	product: (id: Id) => `/products/${id}`,
+	product: (id: Id | "create") => `/products/${id}`,
 } as const;

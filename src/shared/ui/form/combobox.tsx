@@ -34,16 +34,17 @@ export function Combobox({
 	return (
 		<PopoverManual open={open} onOpenChange={setOpen}>
 			<PopoverTrigger asChild>
-				{/** biome-ignore lint/a11y/useSemanticElements: ignore this error */}
 				<button
 					type="button"
 					role="combobox"
 					aria-expanded={open}
-					className="select w-60 justify-between cursor-pointer"
+					className="select w-80 justify-between cursor-pointer"
 				>
-					{value
-						? items.find((framework) => framework.value === value)?.label
-						: placeholder}
+					{value ? (
+						items.find((item) => item.value === value)?.label
+					) : (
+						<span className="text-gray-400">{placeholder}</span>
+					)}
 
 					{loading ? (
 						<Loading className="loading-xs" />
@@ -52,7 +53,7 @@ export function Combobox({
 					)}
 				</button>
 			</PopoverTrigger>
-			<PopoverContent className="w-60 p-0">
+			<PopoverContent className={"w-80 p-0"}>
 				<CommandManual>
 					<CommandInput
 						onValueChange={onSearchChange}
@@ -67,13 +68,21 @@ export function Combobox({
 						<CommandGroup className="border-gray-200 border-r mr-0.5">
 							{items.map(
 								(
-									{ value: itemValue, label, disabled, className, render },
+									{
+										value: itemValue,
+										label,
+										disabled,
+										className,
+										keywords,
+										render,
+									},
 									index,
 								) => (
 									<CommandItem
 										key={itemValue}
 										value={itemValue}
 										disabled={disabled}
+										keywords={keywords}
 										className={cn(
 											"cursor-pointer data-[selected=true]:bg-blue-500 data-[selected=true]:text-white",
 											className,
@@ -113,6 +122,7 @@ interface Props {
 		label: string;
 		disabled?: boolean;
 		className?: string;
+		keywords?: string[];
 		render?: (
 			item: { value: string; label: string },
 			items: Pick<Props["items"][number], "value" | "label">[],

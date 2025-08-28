@@ -4,7 +4,7 @@ const Page = ({ params, searchParams }: PageProps) => {
 	// const { locale } = await params;
 	// const { search } = await searchParams;
 
-	return <div />;
+	return <section className="main-content" />;
 };
 
 export default Page;

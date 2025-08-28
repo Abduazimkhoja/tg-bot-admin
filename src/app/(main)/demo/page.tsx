@@ -8,7 +8,6 @@ import {
 } from "lucide-react";
 import type { PageProps } from "next";
 import Image from "next/image";
-import NextImage from "public/next.svg";
 import { searchParamsCache } from "@/shared/lib/cached-search-params";
 import { request } from "@/shared/lib/request";
 import {
@@ -84,7 +83,7 @@ const Page = async ({ params, searchParams }: PageProps) => {
 	];
 
 	return (
-		<>
+		<section className="main-content">
 			<ApiTest />
 			<div className="font-bold text-2xl mb-4">
 				<span>Component info:</span>
@@ -402,7 +401,7 @@ const Page = async ({ params, searchParams }: PageProps) => {
 					<PopoverContent className="w-fit">
 						<Image
 							className="size-40"
-							src={NextImage}
+							src={""}
 							width={200}
 							height={200}
 							alt="vercel logo"
@@ -859,7 +858,7 @@ const Page = async ({ params, searchParams }: PageProps) => {
 
 			<ViewImage imageUrl="" />
 			<ViewImage imageUrl={["", ""]} />
-		</>
+		</section>
 	);
 };
 

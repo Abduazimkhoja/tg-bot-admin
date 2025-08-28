@@ -5,7 +5,9 @@ export type DefaultParams = Record<string, string>;
 export type SearchQuery = Record<string, string | string[] | undefined>;
 
 declare module "next" {
-	export interface PageProps<T extends DefaultParams = Record<string, never>> {
+	export interface PageProps<
+		T extends DefaultParams = Record<string, unknown>,
+	> {
 		params: Promise<T>;
 		searchParams: Promise<SearchQuery>;
 	}

@@ -1,10 +1,10 @@
 import { Plus } from "lucide-react";
 import type { PageProps } from "next";
 import { Suspense } from "react";
+import { ROUTES_LIST } from "@/constants/routes-list.const";
 import { searchParamsCache } from "@/shared/lib/cached-search-params";
-import { Button, Skeleton } from "@/shared/ui";
+import { LinkButton, Skeleton } from "@/shared/ui";
 import { PageHead } from "@/shared/ui/layout/page-head";
-import { CategorySheet } from "./features/category-sheet";
 import { PageTable } from "./page-table";
 
 const Page = async ({ params, searchParams }: PageProps) => {
@@ -13,15 +13,10 @@ const Page = async ({ params, searchParams }: PageProps) => {
 
 	return (
 		<>
-			<PageHead title="Категории">
-				<CategorySheet
-					title="Создать категорию"
-					trigger={
-						<Button>
-							<Plus strokeWidth={1.5} size={20} /> Добавить
-						</Button>
-					}
-				/>
+			<PageHead title="Продукты">
+				<LinkButton href={ROUTES_LIST.product("create")}>
+					<Plus strokeWidth={1.5} size={20} /> Добавить
+				</LinkButton>
 			</PageHead>
 
 			<section className="main-content">

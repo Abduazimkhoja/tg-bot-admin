@@ -8,14 +8,14 @@ type State = {
 	setRefetching: (val: boolean) => void;
 };
 
-export const useRefetchStore = create<State>((set) => ({
+export const usePageRefetchStore = create<State>((set) => ({
 	isRefetching: false,
 	setRefetching: (val) => set({ isRefetching: val }),
 }));
 
 export function useTransition() {
 	const [isPending, startTransition] = useReactTransition();
-	const { setRefetching, isRefetching } = useRefetchStore((s) => s);
+	const { setRefetching, isRefetching } = usePageRefetchStore((s) => s);
 
 	// biome-ignore lint/correctness/useExhaustiveDependencies: no need
 	useEffect(() => {

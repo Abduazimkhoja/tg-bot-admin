@@ -8,13 +8,16 @@ export const PageHead = ({
 	...restProps
 }: Props) => {
 	return (
-		<div
-			className={cn("flex items-center justify-between mb-8", className)}
+		<header
+			className={cn(
+				"flex items-center justify-between mb-8 text-slate-500 sticky top-0 z-40 bg-white border-b border-gray-200 px-7 py-5",
+				className,
+			)}
 			{...restProps}
 		>
-			<p className="text-2xl font-bold">{title}</p>
+			<h1 className="text-2xl font-bold">{title}</h1>
 			{children}
-		</div>
+		</header>
 	);
 };
 

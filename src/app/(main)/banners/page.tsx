@@ -26,7 +26,9 @@ const Page = async ({ params, searchParams }: PageProps) => {
 			</PageHead>
 
 			{/* <Suspense fallback={<Skeleton className="h-40 w-full" />}> */}
-			<BannerList />
+			<section className="main-content">
+				<BannerList />
+			</section>
 			{/* </Suspense> */}
 		</>
 	);

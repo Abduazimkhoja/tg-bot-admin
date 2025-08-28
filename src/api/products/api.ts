@@ -26,22 +26,25 @@ export const getByIdProduct = ({ id }: GetByIdProductParams) => {
 	});
 };
 
-export const createProduct = ({ body }: CreateProductParams) => {
+export const createProduct = ({ body, token }: CreateProductParams) => {
 	return request.post<CreateProductResponse>({
 		endpoints: [API_ENDPOINTS.products],
 		json: body,
+		token,
 	});
 };
 
-export const updateProduct = ({ id, body }: UpdateProductParams) => {
+export const updateProduct = ({ id, body, token }: UpdateProductParams) => {
 	return request.put<UpdateProductResponse>({
 		endpoints: [API_ENDPOINTS.products, id],
 		json: body,
+		token,
 	});
 };
 
-export const deleteProduct = ({ id }: DeleteProductParams) => {
+export const deleteProduct = ({ id, token }: DeleteProductParams) => {
 	return request.delete<DeleteProductResponse>({
 		endpoints: [API_ENDPOINTS.products, id],
+		token,
 	});
 };
