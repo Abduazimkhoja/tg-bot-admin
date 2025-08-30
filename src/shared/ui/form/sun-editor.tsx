@@ -8,7 +8,7 @@ import { Skeleton } from "../feedback/skeleton";
 
 const SunEditorManual = dynamic(() => import("suneditor-react"), {
 	ssr: false,
-	loading: () => <Skeleton className="h-[415px] w-full" />,
+	loading: () => <Skeleton className="h-[365px] w-full" />,
 });
 
 export const SunEditor = ({
@@ -19,7 +19,7 @@ export const SunEditor = ({
 	return (
 		<div
 			className={cn(
-				"*:font-[inherit]! [&_.sun-editor-editable]:cursor-text min-h-[415px]",
+				"*:font-[inherit]! [&_.sun-editor-editable]:cursor-text min-h-[365px]",
 				wrapperClass,
 			)}
 		>
