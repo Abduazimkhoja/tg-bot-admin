@@ -41,7 +41,7 @@ export function Combobox({
 					className="select w-80 justify-between cursor-pointer"
 				>
 					{value ? (
-						items.find((item) => item.value === value)?.label
+						<span>{items.find((item) => item.value === value)?.label}</span>
 					) : (
 						<span className="text-gray-400">{placeholder}</span>
 					)}

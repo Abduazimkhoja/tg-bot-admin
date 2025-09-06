@@ -9,4 +9,6 @@ export const ROUTES_LIST = {
 	category: (id: Id) => `/category/${id}`,
 	products: "/products",
 	product: (id: Id | "create") => `/products/${id}`,
+	login: "/login",
+	promoCodes: "/promo-codes",
 } as const;

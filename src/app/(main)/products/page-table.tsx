@@ -23,42 +23,44 @@ export const PageTable = async () => {
 		searchParams: { page, perPage, search: query },
 	});
 
-	return !products.length ? (
-		<EmptyContent className="h-80" />
-	) : (
+	return (
 		<>
-			<TableManual className="animate-with-page-pending">
-				{/* <TableCaption>A list of your recent invoices.</TableCaption> */}
-				<TableHeader>
-					<TableRow>
-						<TableHead>Фото</TableHead>
-						<TableHead className="w-full">Название</TableHead>
-						<TableHead className="text-center">Действия</TableHead>
-					</TableRow>
-				</TableHeader>
-				<TableBody>
-					{products.map((product) => (
-						<TableRow key={product.id}>
-							<TableCell>
-								<TableImageCell imageUrl={product.images?.[0]} />
-							</TableCell>
-							<TableCell>{product.name.ru}</TableCell>
-							<TableCell className="space-x-2">
-								<LinkButton
-									href={ROUTES_LIST.product(product.id)}
-									className="btn-square size-7 btn-info"
-								>
-									<Pen className="size-[55%]" />
-								</LinkButton>
-								<DeleteProduct
-									elementsCount={products.length}
-									productId={product.id}
-								/>
-							</TableCell>
+			{!products.length ? (
+				<EmptyContent className="h-80" />
+			) : (
+				<TableManual className="animate-with-page-pending">
+					{/* <TableCaption>A list of your recent invoices.</TableCaption> */}
+					<TableHeader>
+						<TableRow>
+							<TableHead>Фото</TableHead>
+							<TableHead className="w-full">Название</TableHead>
+							<TableHead className="text-center">Действия</TableHead>
 						</TableRow>
-					))}
-				</TableBody>
-			</TableManual>
+					</TableHeader>
+					<TableBody>
+						{products.map((product) => (
+							<TableRow key={product.id}>
+								<TableCell>
+									<TableImageCell imageUrl={product.images?.[0]} />
+								</TableCell>
+								<TableCell>{product.name.ru}</TableCell>
+								<TableCell className="space-x-2">
+									<LinkButton
+										href={ROUTES_LIST.product(product.id)}
+										className="btn-square size-7 btn-info"
+									>
+										<Pen className="size-[55%]" />
+									</LinkButton>
+									<DeleteProduct
+										elementsCount={products.length}
+										productId={product.id}
+									/>
+								</TableCell>
+							</TableRow>
+						))}
+					</TableBody>
+				</TableManual>
+			)}
 			<Pagination
 				totalElements={pagination.totalElements}
 				totalPages={pagination.totalPages}

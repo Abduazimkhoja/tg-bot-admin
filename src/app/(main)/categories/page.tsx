@@ -4,7 +4,7 @@ import { Suspense } from "react";
 import { searchParamsCache } from "@/shared/lib/cached-search-params";
 import { Button, Skeleton } from "@/shared/ui";
 import { PageHead } from "@/shared/ui/layout/page-head";
-import { CategorySheet } from "./features/category-sheet";
+import { CategorySheet } from "./form/category-sheet";
 import { PageTable } from "./page-table";
 
 const Page = async ({ params, searchParams }: PageProps) => {

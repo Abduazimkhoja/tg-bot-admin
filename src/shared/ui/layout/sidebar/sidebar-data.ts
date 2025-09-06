@@ -4,6 +4,7 @@ import {
 	GalleryHorizontal,
 	Home,
 	type LucideProps,
+	TicketPercent,
 	Warehouse,
 } from "lucide-react";
 import type { FC } from "react";
@@ -53,6 +54,13 @@ export const getSidebarData = ({ hideList = [] }: Params = {}): SidebarData => {
 			link: ROUTES_LIST.products,
 			icon: Warehouse,
 		},
+		{
+			value: "promoCodes",
+			hide: hideList.includes("promoCodes"),
+			label: "Промокоды",
+			link: ROUTES_LIST.promoCodes,
+			icon: TicketPercent,
+		},
 	];
 };
 
@@ -76,6 +84,7 @@ export const SidebarValue = {
 	banners: "banners",
 	categories: "categories",
 	products: "products",
+	promoCodes: "promoCodes",
 } as const;
 
 export type SidebarValue = keyof typeof SidebarValue;

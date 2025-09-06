@@ -12,7 +12,7 @@ import {
 	TableRow,
 } from "@/shared/ui";
 import { DeleteCategory } from "./delete-category";
-import { CategorySheet } from "./features/category-sheet";
+import { CategorySheet } from "./form/category-sheet";
 import { TableImageCell } from "./table-image-cell";
 
 export const PageTable = async () => {

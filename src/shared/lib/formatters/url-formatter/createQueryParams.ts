@@ -49,7 +49,7 @@ export const createQueryParams: CreateQueryFunction = ({ queryParams }) => {
 
 		const result = safeParse(isValidValue, value);
 
-		if (!result.success) {
+		if (result.success) {
 			urlSearchParams.append(key, `${result.output}`);
 		}
 	}

@@ -158,9 +158,7 @@ const Page = async ({ params, searchParams }: PageProps) => {
 					</Button>
 				</div>
 			</div>
-
 			<div className="divider divider-primary ">Divider</div>
-
 			<div className="flex gap-8">
 				<div className="indicator indicator-top">
 					<span className="indicator-item status status-xl status-success" />
@@ -223,7 +221,6 @@ const Page = async ({ params, searchParams }: PageProps) => {
 					</div>
 				</div>
 			</div>
-
 			<div className="divider divider-primary ">Loading</div>
 			<div className="flex flex-col gap-4">
 				<Skeleton className="h-40" />
@@ -273,9 +270,7 @@ const Page = async ({ params, searchParams }: PageProps) => {
 					<Loading className="loading-ball size-20" />
 				</div>
 			</div>
-
 			<div className="divider divider-primary ">Accordion</div>
-
 			<Accordion type="single" collapsible>
 				<AccordionItem value="item-1">
 					<AccordionTrigger>Is it accessible?</AccordionTrigger>
@@ -284,21 +279,17 @@ const Page = async ({ params, searchParams }: PageProps) => {
 					</AccordionContent>
 				</AccordionItem>
 			</Accordion>
-
 			<div className="divider divider-primary ">Input</div>
-
 			<label className="input">
 				<span className="label">label</span>
 				<Search />
 				<Input className="grow" />
 				text
 			</label>
-
 			<label className="input floating-label">
 				<span>floating-label</span>
 				<Input className="grow" />
 			</label>
-
 			<div className="flex flex-row gap-4 my-4">
 				<Input className="input-xs" placeholder="xs" />
 				<Input className="input-sm" placeholder="sm" />
@@ -306,29 +297,21 @@ const Page = async ({ params, searchParams }: PageProps) => {
 				<Input className="input-lg" placeholder="lg" />
 				<Input className="input-xl" placeholder="xl" />
 			</div>
-
 			<FormField label="Label" error="Error message">
 				<Input required placeholder="Type here" />
 			</FormField>
-
 			<fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
 				<legend className="fieldset-legend">Page title</legend>
 				<input type="text" className="input" placeholder="My awesome page" />
 				<p className="label">You can edit page title later on from settings</p>
 			</fieldset>
-
 			<div className="divider divider-primary">Select</div>
-
 			<Select placeholder="Select value" items={selectItems} />
-
 			<Select disabled placeholder="Select value" items={selectItems} />
-
 			<Select firstSelected placeholder="Select value" items={selectItems} />
-
 			<FormField label="Label" error="Error message">
 				<Select placeholder="Select value" items={selectItems} />
 			</FormField>
-
 			<div className="flex flex-row gap-4 my-4">
 				<Select
 					className="input-xs input-error"
@@ -356,9 +339,7 @@ const Page = async ({ params, searchParams }: PageProps) => {
 					items={selectItems}
 				/>
 			</div>
-
 			<div className="divider divider-primary">Popover</div>
-
 			<div className="flex gap-5">
 				<PopoverManual>
 					<PopoverTrigger asChild>
@@ -427,9 +408,7 @@ const Page = async ({ params, searchParams }: PageProps) => {
 					</PopoverContent>
 				</PopoverManual>
 			</div>
-
 			<div className="divider divider-primary">Checkbox</div>
-
 			<div className="flex flex-col gap-5">
 				<div className="flex gap-5">
 					<Checkbox
@@ -540,9 +519,7 @@ const Page = async ({ params, searchParams }: PageProps) => {
 					/>
 				</div>
 			</div>
-
 			<div className="divider divider-primary">Checkbox</div>
-
 			<div className="flex flex-col gap-4">
 				<RadioGroup className="flex gap-5" defaultValue="option-one">
 					<RadioGroupItem
@@ -598,9 +575,7 @@ const Page = async ({ params, searchParams }: PageProps) => {
 					/>
 				</RadioGroup>
 			</div>
-
 			<div className="divider divider-primary">Switch</div>
-
 			<div className="flex flex-col gap-5">
 				<div className="flex gap-5">
 					<Switch className="toggle-xs" />
@@ -622,9 +597,7 @@ const Page = async ({ params, searchParams }: PageProps) => {
 					<Switch defaultChecked className="toggle-error" />
 				</div>
 			</div>
-
 			<div className="divider divider-primary">Sheet</div>
-
 			<SheetManual>
 				<SheetTrigger asChild>
 					<Button>Open</Button>
@@ -667,11 +640,8 @@ const Page = async ({ params, searchParams }: PageProps) => {
 					</SheetHeader>
 				</SheetContent>
 			</SheetManual>
-
 			<div className="divider divider-primary">Cascader</div>
-
 			<Cascader />
-
 			<div className="divider divider-primary">Table</div>
 			<div>
 				<TableManual>
@@ -725,9 +695,7 @@ const Page = async ({ params, searchParams }: PageProps) => {
 				</TableManual>
 				<Pagination totalElements={400} totalPages={200} />
 			</div>
-
 			<div className="divider divider-primary">Tooltip</div>
-
 			<div className="flex flex-wrap gap-x-5 gap-y-14 mt-16">
 				<Tooltip message="Hello world">
 					<Button>Tooltip</Button>
@@ -757,7 +725,6 @@ const Page = async ({ params, searchParams }: PageProps) => {
 					<Button>Tooltip error</Button>
 				</Tooltip>
 			</div>
-
 			<div className="my-16 flex flex-col gap-4 flex-center">
 				<Tooltip className="tooltip-open" side="top" message="Hello world">
 					<Button>Tooltip</Button>
@@ -772,9 +739,7 @@ const Page = async ({ params, searchParams }: PageProps) => {
 					<Button>Tooltip</Button>
 				</Tooltip>
 			</div>
-
 			<div className="divider divider-primary">Dialog</div>
-
 			<DialogManual>
 				<DialogTrigger asChild>
 					<Button>Open Dialog</Button>
@@ -793,17 +758,28 @@ const Page = async ({ params, searchParams }: PageProps) => {
 					<div>content</div>
 				</DialogContent>
 			</DialogManual>
-
 			<div className="divider divider-primary">Image upload</div>
-
-			<UploadImage showToast multiple />
-
+			Multiple upload
+			<UploadImage
+				showToast
+				multiple={true}
+				onChange={(files) => {
+					console.log(files);
+				}}
+				value={[]}
+			/>
+			Single upload
+			<UploadImage
+				showToast
+				multiple={false}
+				onChange={(file) => {
+					console.log(file);
+				}}
+				value={""}
+			/>
 			<div className="divider divider-primary">Sun Editor</div>
-
 			<PreviewSunEditor />
-
 			<div className="divider divider-primary">Combobox</div>
-
 			<Combobox
 				items={[
 					{
@@ -828,13 +804,9 @@ const Page = async ({ params, searchParams }: PageProps) => {
 					},
 				]}
 			/>
-
 			<div className="divider divider-primary">Error message</div>
-
 			<PreviewErrorMessage />
-
 			<div className="divider divider-primary">Tabs</div>
-
 			<Tabs
 				items={[
 					{
@@ -855,7 +827,6 @@ const Page = async ({ params, searchParams }: PageProps) => {
 				]}
 			/>
 			<div className="divider divider-primary">View images</div>
-
 			<ViewImage imageUrl="" />
 			<ViewImage imageUrl={["", ""]} />
 		</section>

@@ -13,37 +13,39 @@ import type {
 	UpdatePromoCodeResponse,
 } from "./type";
 
-export const getAllPromoCodes = ({
-	searchParams,
-}: GetAllPromoCodesParams = {}) => {
+export const getAllPromoCodes = ({ token }: GetAllPromoCodesParams) => {
 	return request.get<GetAllPromoCodesResponse>({
 		endpoints: [API_ENDPOINTS.promoCodes],
-		searchParams,
+		token,
 	});
 };
 
-export const getByIdPromoCode = ({ id }: GetByIdPromoCodeParams) => {
+export const getByIdPromoCode = ({ id, token }: GetByIdPromoCodeParams) => {
 	return request.get<GetByIdPromoCodeResponse>({
 		endpoints: [API_ENDPOINTS.promoCodes, id],
+		token,
 	});
 };
 
-export const createPromoCode = ({ body }: CreatePromoCodeParams) => {
+export const createPromoCode = ({ body, token }: CreatePromoCodeParams) => {
 	return request.post<CreatePromoCodeResponse>({
 		endpoints: [API_ENDPOINTS.promoCodes],
 		json: body,
+		token,
 	});
 };
 
-export const updatePromoCode = ({ id, body }: UpdatePromoCodeParams) => {
+export const updatePromoCode = ({ id, body, token }: UpdatePromoCodeParams) => {
 	return request.put<UpdatePromoCodeResponse>({
 		endpoints: [API_ENDPOINTS.promoCodes, id],
 		json: body,
+		token,
 	});
 };
 
-export const deletePromoCode = ({ id }: DeletePromoCodeParams) => {
+export const deletePromoCode = ({ id, token }: DeletePromoCodeParams) => {
 	return request.delete<DeletePromoCodeResponse>({
 		endpoints: [API_ENDPOINTS.promoCodes, id],
+		token,
 	});
 };

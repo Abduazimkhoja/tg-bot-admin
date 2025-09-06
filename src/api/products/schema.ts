@@ -40,18 +40,21 @@ export const productBodySchema = z.object({
 
 	description: localizedStringSchema().partial().optional(),
 
-	stock: z.number().optional(),
-	discountPrice: z.number().optional(),
-	weight: z.number().optional(),
-	composition: z.string().optional(),
-	isAvailable: z.boolean().optional(),
+	stock: z.optional(z.nullable(z.number())),
+	discountPrice: z.optional(z.nullable(z.number())),
+	weight: z.optional(z.nullable(z.number())),
+	composition: z.optional(z.nullable(z.string())),
+	isAvailable: z.optional(z.nullable(z.boolean())),
 });
 
 export const productFormSchema = z.object({
 	...productBodySchema.shape,
 
 	images: z
-		.array(z.union([z.string(), z.instanceof(File)]), "Загрузите изображение")
+		.array(
+			z.object({ image: z.union([z.string(), z.instanceof(File)]) }),
+			"Загрузите изображение",
+		)
 		.nonempty("Загрузите изображение")
 		.max(10, "Максимум 10 изображений"),
 

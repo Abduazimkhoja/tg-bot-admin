@@ -10,7 +10,7 @@ import { cn } from "@/shared/lib/cn";
 import { Button, NextImage } from "@/shared/ui";
 import { DeleteButton } from "@/shared/ui/form/delete-button";
 import { ViewImage } from "@/shared/ui/overlay/view-image";
-import { BannerSheet } from "./features/banner-sheet";
+import { BannerSheet } from "./form/banner-sheet";
 
 export const BannerCard = (banner: Props) => {
 	const session = useSession();

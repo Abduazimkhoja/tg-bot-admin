@@ -17,6 +17,7 @@ export const createFiles = async ({ files, token }: CreateFileParams) => {
 			endpoints: [API_ENDPOINTS.files],
 			body: formData,
 			autoToastSuccess: false,
+			autoToastError: false,
 		});
 	});
 

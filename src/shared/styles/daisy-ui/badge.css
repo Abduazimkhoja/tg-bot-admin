@@ -12,6 +12,7 @@
   --badge-fg: var(--color-base-content);
   --size: calc(var(--size-selector, 0.25rem) * 6);
   height: var(--size);
+
   &.badge-outline {
     --badge-fg: var(--badge-color);
     --badge-bg: #0000;

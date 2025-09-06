@@ -1,6 +1,7 @@
 "use client";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { useQueryStates } from "nuqs";
+import { useEffect } from "react";
 import { PAGINATION_LIMITS } from "@/constants/pagination.const";
 import { useTransition } from "@/shared/hooks";
 import { searchParamsParsers } from "@/shared/lib/cached-search-params";
@@ -14,8 +15,16 @@ export const Pagination = ({ totalPages, totalElements }: Props) => {
 		useQueryStates(searchParamsParsers);
 	const [_, startTransition] = useTransition();
 
-	if (totalElements <= PAGINATION_LIMITS[0]) return;
+	useEffect(() => {
+		if (totalElements <= PAGINATION_LIMITS[0] || currentPage > totalPages) {
+			setSearchParams({
+				page: 1,
+				perPage: perPageParser(PAGINATION_LIMITS[1]),
+			});
+		}
+	}, [currentPage, totalElements, totalPages]);
 
+	if (totalElements <= PAGINATION_LIMITS[0]) return;
 	const visiblePages = 6; // Количество видимых страниц, включая первую и последнюю
 
 	const getPageNumbers = () => {

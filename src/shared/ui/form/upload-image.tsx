@@ -10,7 +10,6 @@ import { ViewImage } from "../overlay/view-image";
 import { Button } from "./button";
 
 export const UploadImage = ({
-	defaultValue,
 	multiple,
 	showToast,
 	limit = multiple ? 5 : 1,
@@ -19,27 +18,13 @@ export const UploadImage = ({
 	onRemove,
 	disabled,
 	triggerProps,
+	value,
 	...restProps
 }: Props) => {
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	const [isDragging, setIsDragging] = useState(false);
 
-	const [previewUrls, setPreviewUrls] = useState<string[]>(
-		Array.isArray(defaultValue)
-			? defaultValue
-			: defaultValue
-				? [defaultValue]
-				: [],
-	);
-
-	const appendUrls = (newUrls: string[]) => {
-		setPreviewUrls((currentUrls) => [...currentUrls, ...newUrls]);
-	};
-
-	const removeUrl = (removedUrl: string) => {
-		setPreviewUrls((urls) => urls.filter((url) => url !== removedUrl));
-		onRemove?.(removedUrl);
-	};
+	const values = !value ? [] : Array.isArray(value) ? value : [value];
 
 	const changeFile = (
 		files: ChangeEvent<HTMLInputElement>["target"]["files"],
@@ -47,9 +32,9 @@ export const UploadImage = ({
 		if (!files) return;
 		let filesList = Array.from(files);
 
-		if (filesList.length + previewUrls.length > limit) {
+		if (filesList.length + values.length > limit) {
 			toast.error(`Максимум ${limit} фото`);
-			filesList = filesList.slice(0, limit - previewUrls.length);
+			filesList = filesList.slice(0, limit - values.length);
 		}
 		// const validateImage = imageFileValidation(filesList);
 
@@ -60,9 +45,11 @@ export const UploadImage = ({
 		// 	return;
 		// }
 
-		appendUrls(filesList.map((file) => URL.createObjectURL(file)));
-
-		onChange?.(multiple ? filesList : filesList[0]);
+		if (multiple) {
+			onChange?.(filesList);
+		} else {
+			onChange?.(filesList[0]);
+		}
 	};
 
 	const handleDragOver = (e: React.DragEvent<HTMLButtonElement>) => {
@@ -92,12 +79,16 @@ export const UploadImage = ({
 				type="file"
 				multiple={multiple}
 				accept={IMAGE_ACCEPTED_TYPES.join(", ")}
-				max={limit - previewUrls.length}
+				max={limit - values.length}
 				onChange={({ target: { files } }) => changeFile(files)}
 			/>
 			<div className="relative flex gap-5 overflow-x-auto">
-				{limit > previewUrls.length && (
-					<div className="bg-white sticky left-0 z-20 pr-2">
+				{limit > values.length && (
+					<div
+						className={cn("bg-white sticky left-0 z-20", {
+							"pr-2": multiple && values.length > 0,
+						})}
+					>
 						<button
 							disabled={disabled}
 							onDragOver={handleDragOver}
@@ -120,48 +111,64 @@ export const UploadImage = ({
 						</button>
 					</div>
 				)}
-				{previewUrls.map((url) => (
-					<div
-						key={url}
-						className={cn(
-							"relative size-40 overflow-hidden rounded-xl flex-none bg-gray-100 border-[3px] border-gray-300 cursor-pointer transition-colors text-gray-200",
-							wrapperClassName,
-						)}
-					>
-						<NextImage
-							className="size-full object-contain"
-							hostName={null}
-							key={url}
-							fill
-							src={url}
-							alt="local image"
-						/>
-						<div className="absolute inset-0 z-10 flex-center gap-2  bg-black/60 opacity-0 hover:opacity-100 transition-opacity">
-							<ViewImage imageUrl={url} />
+				{values.map((image, index) => {
+					const url =
+						typeof image === "string" ? image : URL.createObjectURL(image);
 
-							<Button
-								onClick={() => removeUrl(url)}
-								className="btn-error btn-square"
-							>
-								<Trash2 className="size-4" />
-							</Button>
+					return (
+						<div
+							key={url}
+							className={cn(
+								"relative size-40 overflow-hidden rounded-xl flex-none bg-gray-100 border-[3px] border-gray-300 cursor-pointer transition-colors text-gray-200",
+								wrapperClassName,
+							)}
+						>
+							<NextImage
+								className="size-full object-contain"
+								key={url}
+								fill
+								src={url}
+								alt="local image"
+							/>
+							<div className="absolute inset-0 z-10 flex-center gap-2  bg-black/60 opacity-0 hover:opacity-100 transition-opacity">
+								<ViewImage imageUrl={url} />
+
+								<Button
+									onClick={() => onRemove?.(index)}
+									className="btn-error btn-square"
+								>
+									<Trash2 className="size-4" />
+								</Button>
+							</div>
 						</div>
-					</div>
-				))}
+					);
+				})}
 			</div>
 		</div>
 	);
 };
 
-type Props = {
+type Props = MultipleUpload | SingleUpload;
+
+interface MultipleUpload extends BaseProps {
+	limit?: number;
+	multiple: true;
+	onChange: (value: File[]) => void;
+	value: (File | string)[];
+}
+
+interface SingleUpload extends BaseProps {
+	limit?: never;
+	multiple: false;
+	onChange: (value: File) => void;
+	value: File | string;
+}
+
+interface BaseProps {
 	className?: string;
 	disabled?: boolean;
-	limit?: number;
-	defaultValue?: string | string[];
-	multiple?: boolean;
 	showToast?: boolean;
 	wrapperClassName?: string;
-	onRemove?: (value: string) => void;
-	onChange?: (value: File | File[]) => void;
 	triggerProps?: ComponentProps<typeof Button>;
-};
+	onRemove?: (index: number) => void;
+}

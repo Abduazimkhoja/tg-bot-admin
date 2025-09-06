@@ -1,5 +1,6 @@
 import { ChevronLeft } from "lucide-react";
 import type { PageProps } from "next";
+import { notFound } from "next/navigation";
 import { getByIdProduct } from "@/api/products/api";
 import { ROUTES_LIST } from "@/constants/routes-list.const";
 import { LinkButton } from "@/shared/ui";
@@ -14,7 +15,8 @@ const Page = async ({ params }: PageProps<{ id: string }>) => {
 	const productResponse = isUpdate
 		? await getByIdProduct({ id: Number(id) })
 		: undefined;
-	console.log(productResponse?.data);
+
+	if (isUpdate && !productResponse?.data) return notFound();
 
 	return (
 		<>

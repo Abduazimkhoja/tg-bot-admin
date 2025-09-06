@@ -1,8 +1,10 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { Controller, useForm } from "react-hook-form";
+import { useQueryStates } from "nuqs";
+import { Controller, type FieldErrors, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { createFiles } from "@/api/file/api";
 import { createProduct, updateProduct } from "@/api/products/api";
 import { productFormSchema } from "@/api/products/schema";
@@ -13,7 +15,10 @@ import type {
 } from "@/api/products/type";
 import { ROUTES_LIST } from "@/constants/routes-list.const";
 import { useTransition } from "@/shared/hooks";
+import { searchParamsParsers } from "@/shared/lib/cached-search-params";
 import { findKey } from "@/shared/lib/find-key";
+import { createQueryParams } from "@/shared/lib/formatters/url-formatter/createQueryParams";
+import { requestErrorHandler } from "@/shared/lib/request";
 import { Button, FormField } from "@/shared/ui";
 import { MultiLangInput } from "@/shared/ui/form/multi-lang-input";
 import { PriceInput } from "@/shared/ui/form/price-input";
@@ -26,14 +31,14 @@ export function ProductsForm({ product }: Props) {
 	const session = useSession();
 	const token = session.data?.accessToken || "";
 	const router = useRouter();
-	const searchParams = useSearchParams();
-	const redirectTo = searchParams.get("redirectTo");
+	const [searchParams] = useQueryStates(searchParamsParsers);
 
 	const {
 		handleSubmit,
 		control,
-		formState: { errors, isValid },
+		formState: { errors },
 		register,
+		getValues,
 	} = useForm<ProductForm>({
 		resolver: zodResolver(productFormSchema),
 		defaultValues: {
@@ -43,7 +48,7 @@ export function ProductsForm({ product }: Props) {
 				en: !product?.description?.en ? undefined : product.description.ru,
 				uz: !product?.description?.uz ? undefined : product.description.ru,
 			},
-			images: product?.images,
+			images: product?.images.map((url) => ({ image: url })),
 			categoryId: product?.category?.id,
 			price: product?.price,
 			discountPrice: product?.discountPrice,
@@ -64,95 +69,106 @@ export function ProductsForm({ product }: Props) {
 		price,
 	}: ProductForm) => {
 		startTransition(async () => {
-			const imageUrls: string[] = images.filter(
-				(image) => typeof image === "string",
-			);
-			const imageFiles = images.filter((image) => typeof image !== "string");
+			try {
+				const imageUrls = images
+					.map(({ image }) => image)
+					.filter((image) => typeof image === "string");
 
-			if (imageFiles.length) {
-				const imageResponse = await createFiles({
-					files: imageFiles,
-					token,
-				});
+				const imageFiles = images
+					.map(({ image }) => image)
+					.filter((image) => image instanceof File);
 
-				imageResponse.data.forEach(({ path }) => {
-					imageUrls.push(path);
-				});
-			}
+				if (imageFiles.length) {
+					const imageResponse = await createFiles({
+						files: imageFiles.map((image) => image),
+						token,
+					});
 
-			if (product) {
-				const body: ProductBody = {
-					...product,
-					name,
-					images: imageUrls,
-					categoryId,
-					price,
-					description: {
-						ru: description?.ru || "",
-						en: description?.en || "",
-						uz: description?.uz || "",
-					},
-				};
-
-				if (name.en !== product.name.en) {
-					body.sku = generateSKU(name.en, product.id);
-					body.slug = generateSlug(name.en);
+					if (!imageResponse.data) return;
+					for (const { path } of imageResponse.data) {
+						imageUrls.push(path);
+					}
 				}
 
-				console.log(generateSKU(name.en, product.id));
+				if (product) {
+					const body: ProductBody = {
+						...product,
+						name,
+						images: imageUrls,
+						categoryId,
+						price,
+						description: {
+							ru: description?.ru || "",
+							en: description?.en || "",
+							uz: description?.uz || "",
+						},
+					};
 
-				await updateProduct({
-					id: product.id,
-					body,
-					token,
-				});
-			} else {
-				const body = {
-					name,
-					images: imageUrls,
-					categoryId,
-					price,
-					description,
-					// composition: "",
-					// discountPrice: price,
-					// isAvailable: true,
-					sku: generateSKU(name.en, Math.round(Math.random() * 100)),
-					slug: generateSlug(name.en),
-					// stock: 10,
-					// weight: 10,
-				};
+					if (name.en !== product.name.en) {
+						body.sku = generateSKU(name.en, product.id);
+						body.slug = generateSlug(name.en);
+					}
 
-				await createProduct({
-					body,
-					token,
+					await updateProduct({
+						id: product.id,
+						body,
+						token,
+					});
+				} else {
+					const body = {
+						name,
+						images: imageUrls,
+						categoryId,
+						price,
+						description,
+						// composition: "",
+						// discountPrice: price,
+						// isAvailable: true,
+						sku: generateSKU(name.en, Math.round(Math.random() * 100)),
+						slug: generateSlug(name.en),
+						// stock: 10,
+						// weight: 10,
+					};
+
+					await createProduct({
+						body,
+						token,
+					});
+				}
+
+				const formattedSearchParams = createQueryParams({
+					queryParams: searchParams,
 				});
-			}
-			if (redirectTo) {
-				router.replace(redirectTo); // вернёт именно в тот список
-				router.refresh(); // заставит refetch
-			} else {
-				router.replace(ROUTES_LIST.products); // если зашёл напрямую → общий список
+
+				router.replace(`${ROUTES_LIST.products}?${formattedSearchParams}`);
 				router.refresh();
+			} catch (error) {
+				const { errorMessage } = await requestErrorHandler(error);
+				toast.error(errorMessage.ru);
 			}
 		});
+	};
+
+	const onError = (errors: FieldErrors<ProductForm>) => {
+		console.log("errors", errors);
+		console.log("getValues", getValues());
 	};
 
 	return (
 		<form
 			id="product-form"
 			className="px-5"
-			onSubmit={handleSubmit(onSubmit, (errors) => console.log(errors))}
+			onSubmit={handleSubmit(onSubmit, onError)}
 		>
 			<UploadProductImages
 				control={control}
-				images={product?.images || []}
 				error={findKey(errors?.images, "message")}
 			/>
 
 			<FormField
 				required
 				label="Цена"
-				error={findKey(errors?.price, "message")}
+				error={errors?.price?.message}
 				className="w-xs"
 			>
 				<Controller
@@ -167,7 +183,7 @@ export function ProductsForm({ product }: Props) {
 			<FormField
 				required
 				label="Категория"
-				error={findKey(errors?.categoryId, "message")}
+				error={errors?.categoryId?.message}
 				className=""
 			>
 				<CategorySelect control={control} />

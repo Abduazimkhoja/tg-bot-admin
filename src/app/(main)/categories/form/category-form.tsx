@@ -109,10 +109,7 @@ export const CategoryForm = ({ category, pending, startTransition }: Props) => {
 								onRemove={() => field.onChange(undefined)}
 								onChange={field.onChange}
 								multiple={false}
-								defaultValue={
-									category?.image &&
-									ENV.imageUrl({ endpoints: [category?.image] }).href
-								}
+								value={field?.value}
 							/>
 						)}
 					/>

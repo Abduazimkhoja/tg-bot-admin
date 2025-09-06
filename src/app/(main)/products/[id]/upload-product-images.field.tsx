@@ -1,10 +1,14 @@
 import { CircleQuestionMark } from "lucide-react";
-import { type Control, Controller } from "react-hook-form";
-import type { ProductForm, ProductItem } from "@/api/products/type";
-import { ENV } from "@/constants/env.const";
+import { type Control, useFieldArray } from "react-hook-form";
+import type { ProductForm } from "@/api/products/type";
 import { FormField, Popover, UploadImage } from "@/shared/ui";
 
-export const UploadProductImages = ({ control, images, error }: Props) => {
+export const UploadProductImages = ({ control, error }: Props) => {
+	const { fields, remove, append } = useFieldArray({
+		name: "images",
+		control,
+	});
+
 	return (
 		<FormField
 			required
@@ -25,21 +29,13 @@ export const UploadProductImages = ({ control, images, error }: Props) => {
 			}
 			error={error}
 		>
-			<Controller
-				control={control}
-				name="images"
-				render={({ field }) => (
-					<UploadImage
-						wrapperClassName="aspect-[4/5] w-auto h-60"
-						onRemove={() => field.onChange(undefined)}
-						onChange={field.onChange}
-						multiple
-						limit={10}
-						defaultValue={images?.map(
-							(image) => ENV.imageUrl({ endpoints: [image] }).href,
-						)}
-					/>
-				)}
+			<UploadImage
+				wrapperClassName="aspect-[4/5] w-auto h-60"
+				onRemove={remove}
+				value={fields.map(({ image }) => image)}
+				onChange={(files) => append(files.map((file) => ({ image: file })))}
+				multiple
+				limit={10}
 			/>
 		</FormField>
 	);
@@ -48,5 +44,4 @@ export const UploadProductImages = ({ control, images, error }: Props) => {
 interface Props {
 	error?: string;
 	control: Control<ProductForm>;
-	images: ProductItem["images"];
 }

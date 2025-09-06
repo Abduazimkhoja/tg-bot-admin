@@ -1,3 +1,5 @@
+"use client"; // NO REMOVE! IT IS USE IN CLIENT COMPONENTS!
+
 const initialDateConfigs: FormatTimestampConfigs = {
 	year: "numeric",
 	day: "2-digit",
@@ -8,19 +10,17 @@ const initialDateConfigs: FormatTimestampConfigs = {
 	hour12: false, // 24-hour format
 };
 
-export const formatTimestamp: FormatTimestamp = (
-	timestamp,
+export const formatDate: FormatTimestamp = (
+	date,
 	{ locale, ...configs } = {},
 ) => {
-	const date = new Date(
-		Number.isFinite(+timestamp) ? Number(timestamp) : timestamp,
-	);
+	const newDate = new Date(Number.isFinite(+date) ? Number(date) : date);
 	const { locale: initialLocale, ...initialConfigs } = initialDateConfigs;
 
 	const dateConfigs = { ...initialConfigs, ...configs };
 	const dateLocale = locale || initialLocale;
 
-	const formattedDate = date.toLocaleDateString(dateLocale, dateConfigs);
+	const formattedDate = newDate.toLocaleDateString(dateLocale, dateConfigs);
 
 	return formattedDate;
 };
@@ -78,6 +78,6 @@ type FormatTimestampConfigs = Partial<
 };
 
 type FormatTimestamp = (
-	timestamp: string | number,
+	date: string | Date,
 	configs?: FormatTimestampConfigs,
 ) => string;

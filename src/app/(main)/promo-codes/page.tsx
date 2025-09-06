@@ -1,27 +1,27 @@
 import { Plus } from "lucide-react";
 import type { PageProps } from "next";
 import { Suspense } from "react";
-import { ROUTES_LIST } from "@/constants/routes-list.const";
 import { searchParamsCache } from "@/shared/lib/cached-search-params";
-import { LinkButton, Skeleton } from "@/shared/ui";
+import { Button, Skeleton } from "@/shared/ui";
 import { PageHead } from "@/shared/ui/layout/page-head";
+import { PromoCodeFormSheet } from "./form/promo-code-form-sheet";
 import { PageTable } from "./page-table";
 
-const Page = async ({ searchParams }: PageProps) => {
+const Page = async ({ params, searchParams }: PageProps) => {
 	// const { locale } = await params;
-	const parsedSearchParams = await searchParamsCache.parse(searchParams);
+	await searchParamsCache.parse(searchParams);
 
 	return (
 		<>
-			<PageHead title="Продукты">
-				<LinkButton
-					href={{
-						query: parsedSearchParams,
-						pathname: ROUTES_LIST.product("create"),
-					}}
-				>
-					<Plus strokeWidth={1.5} size={20} /> Добавить
-				</LinkButton>
+			<PageHead title="Категории">
+				<PromoCodeFormSheet
+					title="Создать категорию"
+					trigger={
+						<Button>
+							<Plus strokeWidth={1.5} size={20} /> Добавить
+						</Button>
+					}
+				/>
 			</PageHead>
 
 			<section className="main-content">

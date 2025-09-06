@@ -1,25 +1,24 @@
-export function findKey(
+import { isPlainObject } from "./is-plain-object";
+
+export function findKey<T>(
 	item: Record<string, unknown> | Record<string, unknown>[] | undefined,
 	searchedKey: string,
 	depth = 2,
-): string | undefined {
+): T | undefined {
 	if (depth < 0) return undefined;
 
 	// Проверяем, является ли текущий объект пустым или не объектом
-	if (typeof item !== "object" || item === null || !item) {
+	if (!isPlainObject(item)) {
 		return undefined;
 	}
 
 	if (Array.isArray(item)) {
-		return findKey(item?.[0] || {}, searchedKey, depth - 1);
+		return findKey<T>(item?.[0] || {}, searchedKey, depth - 1);
 	}
 
 	// Если ключ 'message' найден непосредственно в текущем объекте, возвращаем его
-	if (
-		Object.hasOwn(item, searchedKey) &&
-		typeof item[searchedKey] === "string"
-	) {
-		return item[searchedKey] as string; // Приводим тип, так как obj[searchedKey] теперь точно string
+	if (Object.hasOwn(item, searchedKey)) {
+		return item[searchedKey] as T; // Приводим тип, так как obj[searchedKey] теперь точно string
 	}
 
 	// Проходимся по всем свойствам объекта
@@ -33,14 +32,14 @@ export function findKey(
 				// Если значение - массив, перебираем его элементы
 				if (Array.isArray(value)) {
 					for (const item of value) {
-						const result = findKey(item, searchedKey, depth - 1);
+						const result = findKey<T>(item, searchedKey, depth - 1);
 						if (result !== undefined) {
 							return result; // Если нашли 'message' в элементе массива, возвращаем
 						}
 					}
 				} else {
 					// Если значение - обычный объект, рекурсивно ищем в нем
-					const result = findKey(
+					const result = findKey<T>(
 						value as Record<string, unknown>,
 						searchedKey,
 						depth - 1,

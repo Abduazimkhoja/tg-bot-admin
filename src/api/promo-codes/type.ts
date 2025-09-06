@@ -11,6 +11,8 @@ export type PromoCodeItem = z.infer<typeof promoCodeItemSchema>;
 // data list
 export type PromoCodesList = PromoCodeItem[];
 
+export type PromoCodesBody = z.infer<typeof promoCodeBodySchema>;
+
 // HTTPS 🚀
 
 // GetAll 🔵
@@ -18,15 +20,14 @@ export type GetAllPromoCodesResponse = PaginatedApiResponse<
 	typeof promoCodeItemSchema
 >;
 export type GetAllPromoCodesParams = {
-	searchParams?: {
-		query?: string;
-	};
+	token: string;
 };
 
 // GetById 🔵
 export type GetByIdPromoCodeResponse = ApiResponse<typeof promoCodeItemSchema>;
 export type GetByIdPromoCodeParams = {
 	id: PromoCodeItem["id"];
+	token: string;
 };
 
 // Create 🟢
@@ -35,6 +36,7 @@ export type CreatePromoCodeBody = z.infer<typeof promoCodeBodySchema>;
 export type CreatePromoCodeForm = CreatePromoCodeBody;
 export type CreatePromoCodeParams = {
 	body: CreatePromoCodeBody;
+	token: string;
 };
 
 // Update 🟡
@@ -44,10 +46,12 @@ export type UpdatePromoCodeForm = UpdatePromoCodeBody;
 export type UpdatePromoCodeParams = {
 	id: PromoCodeItem["id"];
 	body: UpdatePromoCodeBody;
+	token: string;
 };
 
 // Delete 🔴
 export type DeletePromoCodeResponse = ApiResponse<unknown>;
 export type DeletePromoCodeParams = {
 	id: PromoCodeItem["id"];
+	token: string;
 };

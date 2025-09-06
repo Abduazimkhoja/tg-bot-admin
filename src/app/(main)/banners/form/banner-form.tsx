@@ -4,7 +4,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { CircleQuestionMark } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useRef } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, type FieldErrors, useForm } from "react-hook-form";
 import { createBanner, updateBanner } from "@/api/banners/api";
 import { bannerFormSchema } from "@/api/banners/schema";
 import type { BannerItem, BannersForm } from "@/api/banners/type";
@@ -76,10 +76,14 @@ export const BannerForm = ({ banner }: Props) => {
 		});
 	};
 
+	const onError = (error: FieldErrors<BannersForm>) => {
+		console.log(error);
+	};
+
 	return (
 		<>
 			<SheetClose ref={sheetCloseRef} className="hidden" />
-			<form className="px-5" onSubmit={handleSubmit(onSubmit)}>
+			<form className="px-5" onSubmit={handleSubmit(onSubmit, onError)}>
 				<FormField
 					htmlFor="image"
 					wrappedLabel={false}
@@ -103,13 +107,10 @@ export const BannerForm = ({ banner }: Props) => {
 						render={({ field }) => (
 							<UploadImage
 								wrapperClassName="aspect-[2/1] w-auto"
-								onRemove={() => field.onChange(undefined)}
+								onRemove={() => field.onChange(null)}
 								onChange={field.onChange}
 								multiple={false}
-								defaultValue={
-									banner?.imageUrl &&
-									ENV.imageUrl({ endpoints: [banner?.imageUrl] }).href
-								}
+								value={field.value}
 							/>
 						)}
 					/>
