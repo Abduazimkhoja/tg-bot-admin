@@ -12,13 +12,13 @@ import { ROUTES_LIST } from "@/constants/routes-list.const";
 
 export const getSidebarData = ({ hideList = [] }: Params = {}): SidebarData => {
 	return [
-		{
-			value: "home",
-			hide: hideList.includes("home"),
-			label: "Главная",
-			link: ROUTES_LIST.home,
-			icon: Home,
-		},
+		// {
+		// 	value: "home",
+		// 	hide: hideList.includes("home"),
+		// 	label: "Главная",
+		// 	link: ROUTES_LIST.home,
+		// 	icon: Home,
+		// },
 		{
 			value: "demo",
 			hide: hideList.includes("demo"),
