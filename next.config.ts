@@ -13,6 +13,15 @@ const nextConfig: NextConfig = {
 			hostname: host,
 		}))
 	},
+	logging: {
+		fetches: {
+			fullUrl: true,
+		},
+	},
+	typedRoutes: true,
+	output: "standalone",
+	transpilePackages: ["@t3-oss/env-nextjs", "@t3-oss/env-core"],
+
 	experimental: {
 		optimizePackageImports: [
 			"@dnd-kit/core",
