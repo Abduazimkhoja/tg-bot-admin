@@ -1,5 +1,3 @@
-"use client"; // NO REMOVE! IT IS USE IN CLIENT COMPONENTS!
-
 const initialDateConfigs: FormatTimestampConfigs = {
 	year: "numeric",
 	day: "2-digit",
