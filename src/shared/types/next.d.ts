@@ -1,4 +1,3 @@
-import type { ReadonlyURLSearchParams } from "next/navigation";
 import type { ReactNode } from "react";
 
 export type DefaultParams = Record<string, string>;

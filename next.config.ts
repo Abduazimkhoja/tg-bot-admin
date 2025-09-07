@@ -1,9 +1,9 @@
 import BundleAnalyzer from "@next/bundle-analyzer";
 import type { NextConfig } from "next";
 
-const imageHosts = [
-	process.env.NEXT_PUBLIC_BACKEND_HOSTNAME
-].filter(Boolean) as string[];
+const imageHosts = [process.env.NEXT_PUBLIC_BACKEND_HOSTNAME]
+	.filter((url) => url !== undefined)
+	.map((url) => new URL(url).hostname);
 
 const nextConfig: NextConfig = {
 	reactStrictMode: true,
