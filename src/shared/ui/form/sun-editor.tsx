@@ -62,6 +62,19 @@ export const SunEditor = ({
 						// ["fullScreen", "preview"],
 						["removeFormat"],
 					],
+					font: [
+						"Inter", // твой кастом
+						"Roboto", // твой кастом
+						"Arial",
+						"Comic Sans MS",
+						"Courier New",
+						"Impact",
+						"Georgia",
+						"Tahoma",
+						"Trebuchet MS",
+						"Verdana",
+					],
+					defaultStyle: "font-family: Inter, sans-serif;",
 				}}
 				// placeholder="Type or paste your content here!"
 				{...restEditorProps}
