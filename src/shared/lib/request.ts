@@ -74,7 +74,7 @@ async function handleRequest<T>(
 
 		return data;
 	} catch (error) {
-		if ((error as HTTPError).response.status === 401) {
+		if ((error as HTTPError)?.response?.status === 401) {
 			if (runtime === "client") {
 				await clientSignOut();
 			} else {
