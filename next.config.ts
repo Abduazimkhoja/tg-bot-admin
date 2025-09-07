@@ -1,17 +1,22 @@
 import BundleAnalyzer from "@next/bundle-analyzer";
 import type { NextConfig } from "next";
 
-const imageHosts = [process.env.NEXT_PUBLIC_BACKEND_HOSTNAME]
+const remotePatterns = [process.env.NEXT_PUBLIC_BACKEND_URL]
 	.filter((url) => url !== undefined)
-	.map((url) => new URL(url).hostname);
+	.map((url) => {
+
+	 const {hostname, protocol} =new URL(url)
+
+		return {
+			protocol: protocol.replace(":", "") as 'https' | 'http',
+			hostname,
+		}
+	});
 
 const nextConfig: NextConfig = {
 	reactStrictMode: true,
 	images: {
-		remotePatterns: imageHosts?.map((host) => ({
-			protocol: "https",
-			hostname: host,
-		}))
+		remotePatterns,
 	},
 	logging: {
 		fetches: {
