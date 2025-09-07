@@ -1,9 +1,8 @@
 import ky, { HTTPError, type Options as KyOptions } from "ky";
-import { redirect } from "next/dist/server/api-utils";
+import { redirect } from "next/navigation";
 import { signOut as clientSignOut } from "next-auth/react";
 import toast from "react-hot-toast";
 import type { ApiResponse } from "@/api/_api-configs/type";
-import { signOut as serverSignOut } from "@/auth";
 import { ENV } from "@/constants/env.const";
 import { ROUTES_LIST } from "@/constants/routes-list.const";
 import type { LocalizedString } from "../types/locale.type";
@@ -76,10 +75,14 @@ async function handleRequest<T>(
 		return data;
 	} catch (error) {
 		if ((error as HTTPError).response.status === 401) {
-			runtime === "client" ? await clientSignOut() : await serverSignOut();
-			throw error;
-		}
+			if (runtime === "client") {
+				await clientSignOut();
+			} else {
+				redirect(ROUTES_LIST.login);
+			}
 
+			// throw error;
+		}
 		// if (suppressError) {
 		// 	const errorResponse: ApiResponse<null> = {
 		// 		data: null,
